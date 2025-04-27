@@ -23,6 +23,7 @@
     "@react-native-community/slider": "4.5.5",
     "@react-native-picker/picker": "2.9.0",
     "@react-navigation/native": "^7.0.3",
+    "@reduxjs/toolkit": "^2.7.0",
     "@rn-primitives/avatar": "^1.1.0",
     "@rn-primitives/slot": "^1.1.0",
     "@roninoss/icons": "^0.0.4",
@@ -50,6 +51,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-uitextview": "^1.1.4",
     "react-native-web": "~0.19.10",
+    "react-redux": "^9.2.0",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
