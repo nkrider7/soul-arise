@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <View  className='bg-blue-100' style={styles.container}>
-        <ScreenContent path="app/(tabs)/two.tsx"   title="Welocme" />
+        <ScreenContent path="app/(tabs)/two.tsx"   title="Welocmasdse" />
       </View>
     </>
   );

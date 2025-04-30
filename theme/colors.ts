@@ -69,3 +69,14 @@ const ANDROID_COLORS = {
 const COLORS = Platform.OS === 'ios' ? IOS_SYSTEM_COLORS : ANDROID_COLORS;
 
 export { COLORS };
+
+export const lightTheme = {
+  primary: "#17EEF5" ,
+  secondary: "#C8073C" ,
+  background: "#0B0B12",
+  background2: "#161626",
+  card: COLORS.light.card,
+  text: COLORS.light.foreground,
+  border: COLORS.light.grey3,
+ 
+}
