@@ -13,6 +13,9 @@ import { ThemeToggle } from '~/components/ThemeToggle';
 import { cn } from '~/lib/cn';
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
 import { NAV_THEME } from '~/theme';
+import { Provider } from 'react-redux';
+import { persistor, store } from '~/src/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -33,6 +36,8 @@ export default function RootLayout() {
       {/* <ExampleProvider> */}
 
       <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <BottomSheetModalProvider>
           <ActionSheetProvider>
             <NavThemeProvider value={NAV_THEME[colorScheme]}>
@@ -43,6 +48,8 @@ export default function RootLayout() {
             </NavThemeProvider>
           </ActionSheetProvider>
         </BottomSheetModalProvider>
+        </PersistGate>
+        </Provider>
       </GestureHandlerRootView>
 
       {/* </ExampleProvider> */}

@@ -18,7 +18,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: '',
           headerShown:false,
           tabBarIcon: ({ color, focused }) => 
             focused ? (
@@ -36,7 +36,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="quest"
         options={{
-          title: 'Quest',
+          title: '',
           headerShown:false,
           tabBarIcon: ({ color, focused }) => 
             focused ? (
@@ -53,7 +53,7 @@ export default function TabLayout() {
         name="hunt"
         options={{
           headerShown:false,
-          title: 'Hunt',
+          title: '',
           tabBarIcon: ({ color, focused }) => 
             focused ? (<View style={{ width: 24, height: 24, position: 'relative' }}>
           <Swords color={lightTheme.secondary} style={{ position: 'absolute', left: 1.5, top: 1.5, }} />
@@ -68,7 +68,7 @@ export default function TabLayout() {
         <Tabs.Screen
         name="profiles"
         options={{
-          title: 'Profile',
+          title: '',
           headerShown:false,
           tabBarIcon: ({ color, focused }) => 
             focused ? (<View style={{ width: 24, height: 24, position: 'relative' }}>

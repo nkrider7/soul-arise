@@ -1,21 +1,17 @@
 import { Stack } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaViewComponent, StyleSheet, View } from 'react-native';
+import { Container } from '~/components/Container';
+import QuestMainScreen from '~/components/Quest/QuestMainScreen';
 
-import { ScreenContent } from '~/components/ScreenContent';
+
 
 export default function Home() {
   return (
-    <>
-      <View  className='bg-blue-100' style={styles.container}>
-        <ScreenContent path="app/(tabs)/two.tsx"   title="Welocmasdse" />
-      </View>
+    <> 
+    <Container>
+      <QuestMainScreen />
+    </Container>
+     
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});

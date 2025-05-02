@@ -1,0 +1,47 @@
+import React, { useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { useAppSelector } from '~/src/store/hook/hook';
+import QuestList from './QuestList';
+import AddQuestModal from './AddQuestModal';
+import AppButton from '../universal/AppButton';
+
+const QuestMainScreen = () => {
+  const { systemQuests, userQuests } = useAppSelector(state => state.quest);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // Combine lists with labels
+  const combinedQuests = [
+    ...(userQuests.length > 0
+      ? [{ label: 'Your Custom Quests', data: userQuests }]
+      : []),
+    { label: 'System Quests', data: systemQuests },
+  ];
+
+  console.log(userQuests)
+
+  return (
+    <View className="flex-1 bg-white p-4">
+      <FlatList
+        data={combinedQuests}
+        keyExtractor={(item) => item.label}
+        renderItem={({ item }) => (
+          <View>
+            <Text className="text-lg font-semibold mb-2 text-gray-800">{item.label}</Text>
+            <QuestList quests={item.data} />
+          </View>
+        )}
+        ListFooterComponent={
+          <AppButton
+            title="Add Quest"
+            onPress={() => setModalVisible(true)}
+            style={{ marginTop: 16 }}
+          />
+        }
+      />
+
+      <AddQuestModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+    </View>
+  );
+};
+
+export default QuestMainScreen;
