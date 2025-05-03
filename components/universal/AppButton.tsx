@@ -8,6 +8,7 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 import { lightTheme } from '~/theme/colors';
+import AppText from './AppText';
 
 interface AppButtonProps extends TouchableOpacityProps {
   title: string;
@@ -32,14 +33,14 @@ export default function AppButton({
       disabled={disabled}
       {...rest}
     >
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+      <AppText variant='bold' className='text-white' style={textStyle as TextStyle | TextStyle[] | undefined}>{title}</AppText>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: lightTheme.primary,
+    backgroundColor: lightTheme.secondary,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 6,
@@ -48,9 +49,5 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: '#d3d3d3',
   },
-  text: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  
 });

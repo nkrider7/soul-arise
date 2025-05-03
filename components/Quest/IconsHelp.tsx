@@ -6,7 +6,7 @@ export const getLucideIcon = (
   size = 20,
   color = '#4f46e5'
 ) => {
-  if (!name) return <LucideIcons.Circle size={size} color="#9ca3af" />;
+  if (!name) return <LucideIcons.Sword size={size} color="#9ca3af" />;
   
   // Use a safe lookup with React.ComponentType
   const Icon = (LucideIcons[name as keyof typeof LucideIcons] as React.ComponentType<any>) || null;

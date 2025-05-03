@@ -5,6 +5,8 @@ import * as Progress from 'react-native-progress';
 import { useAppDispatch } from '~/src/store/hook/hook';
 import { deleteUserQuest, updateProgress } from '~/src/store/slices/questSlice';
 import { getLucideIcon } from './IconsHelp';
+import AppText from '../universal/AppText';
+import { lightTheme } from '~/theme/colors';
 
 
 interface Props {
@@ -28,15 +30,15 @@ const QuestList = ({ quests }: Props) => {
                 const remaining = item.goal - item.progress;
 
                 return (
-                    <View className="bg-gray-100 rounded-xl p-4 mb-4 shadow-sm">
+                    <View style={{backgroundColor:lightTheme.background2}} className="rounded-xl p-4 mb-4 shadow-sm">
                         <View className="flex-row items-center justify-between mb-2">
-                            <View className="flex-row items-center space-x-2">
+                            <View className="flex-row items-center gap-x-2">
                                 {getLucideIcon(isUserQuest(item) ? item.icon : null)}
-                                <Text className="text-xl font-semibold">{item.title}</Text>
+                                <AppText variant='bold' className="text-xl text-white font-semibold">{item.title}</AppText>
                             </View>
 
                             <View className="flex-row items-center space-x-2">
-                                <Text className="text-sm text-gray-600">{item.status}</Text>
+                                <AppText variant='bold' className="text-sm text-gray-200">{item.status}</AppText>
 
                                 {/* Delete button only for user quests */}
                                 {isUserQuest(item) && (
@@ -48,7 +50,6 @@ const QuestList = ({ quests }: Props) => {
                                     </TouchableOpacity>
                                 )}
                             </View>
-                            +
                         </View>
 
 

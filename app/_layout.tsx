@@ -6,7 +6,7 @@ import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Icon } from '@roninoss/icons';
 import { Link, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { ThemeToggle } from '~/components/ThemeToggle';
@@ -16,7 +16,7 @@ import { NAV_THEME } from '~/theme';
 import { Provider } from 'react-redux';
 import { persistor, store } from '~/src/store';
 import { PersistGate } from 'redux-persist/integration/react';
-
+import { useFonts } from 'expo-font';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -24,8 +24,17 @@ export {
 
 export default function RootLayout() {
   useInitialAndroidBarSync();
+  const [fontsLoaded] = useFonts({
+    Bold: require('../assets/fonts/Bold.ttf'),
+    Semibold: require('../assets/fonts/SemiBold.ttf'),
+    Normal: require('../assets/fonts/Medium.ttf'),
+    Light: require('../assets/fonts/Light.ttf'),
+  });
   const { colorScheme, isDarkColorScheme } = useColorScheme();
 
+  if (!fontsLoaded) {
+    return <Text  className='text-black'>Font Loading</Text>; // Or render a splash screen here
+  }
   return (
     <>
       <StatusBar

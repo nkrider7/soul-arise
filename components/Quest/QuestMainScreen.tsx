@@ -4,6 +4,7 @@ import { useAppSelector } from '~/src/store/hook/hook';
 import QuestList from './QuestList';
 import AddQuestModal from './AddQuestModal';
 import AppButton from '../universal/AppButton';
+import AppText from '../universal/AppText';
 
 const QuestMainScreen = () => {
   const { systemQuests, userQuests } = useAppSelector(state => state.quest);
@@ -20,13 +21,13 @@ const QuestMainScreen = () => {
   console.log(userQuests)
 
   return (
-    <View className="flex-1 bg-white p-4">
+    <View className="flex-1 p-4">
       <FlatList
         data={combinedQuests}
         keyExtractor={(item) => item.label}
         renderItem={({ item }) => (
           <View>
-            <Text className="text-lg font-semibold mb-2 text-gray-800">{item.label}</Text>
+            <AppText variant='bold' className="text-lg font-semibold mb-2 text-white">{item.label}</AppText>
             <QuestList quests={item.data} />
           </View>
         )}

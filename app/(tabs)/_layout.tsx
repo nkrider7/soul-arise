@@ -9,7 +9,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: lightTheme.primary,
+        tabBarActiveTintColor: "white",
+        animation: 'shift',
         tabBarStyle:{
           backgroundColor: lightTheme.background,
           paddingTop: 3
