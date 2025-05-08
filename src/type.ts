@@ -1,6 +1,17 @@
-// types/quest.ts
+import { StatType } from '~/src/config/gameconfig';
 
 export type QuestStatus = 'pending' | 'in_progress' | 'completed';
+
+export type QuestType = 'fitness' | 'learning' | 'custom';
+
+export interface QuestRewards {
+  xp: number;
+  statBoost?: {
+    stat: StatType;
+    amount: number;
+  };
+  coins?: number;
+}
 
 export interface BaseQuest {
   id: string;
@@ -9,7 +20,8 @@ export interface BaseQuest {
   goal: number;
   progress: number;
   status: QuestStatus;
-  type: 'fitness' | 'learning' | 'custom';
+  type: QuestType;
+  rewards?: QuestRewards;
 }
 
 export interface SystemQuest extends BaseQuest {
@@ -18,7 +30,7 @@ export interface SystemQuest extends BaseQuest {
 
 export interface UserQuest extends BaseQuest {
   createdBy: 'user';
-  link?: string; // Optional link to article/video/etc.
-  checklist?: { id: string; title: string; done: boolean }[]; // Optional list of subtasks
-  icon?: string; 
+  link?: string;
+  checklist?: { id: string; title: string; done: boolean }[];
+  icon?: string;
 }

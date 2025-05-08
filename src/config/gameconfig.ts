@@ -7,6 +7,6 @@ const GAME_CONFIG = {
   stats: STATS,
 };
 
-export type StatType = typeof STATS[number]; // <-- This gives us 'strength' | 'stamina' | 'intelligence' | 'karma'
+export type StatType = typeof STATS[number]; 
 
 export default GAME_CONFIG;

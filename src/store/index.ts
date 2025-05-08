@@ -3,20 +3,28 @@ import playerReducer from './slices/playerSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import questReducer from './slices/questSlice';
-
+import currencyReducer from './slices/currencySlice'
+import habitCounterReducer from './slices/habitCounterSlice'; 
 
 const playerPersistConfig = {
   key: 'player',
   storage: AsyncStorage,
 };
+const persistedHabitCounterReducer = persistReducer(
+  { key: 'habitCounter', storage: AsyncStorage },
+  habitCounterReducer
+);
 
 const persistedQuestReducer = persistReducer({ key: 'quest', storage: AsyncStorage }, questReducer);
+const persistedCurrencyReducer = persistReducer({ key: 'currency', storage: AsyncStorage }, currencyReducer);
 const persistedPlayerReducer = persistReducer(playerPersistConfig, playerReducer);
 
 export const store = configureStore({
   reducer: {
     player: persistedPlayerReducer,
     quest: persistedQuestReducer,
+    currency: persistedCurrencyReducer,
+    habitCounter: persistedHabitCounterReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

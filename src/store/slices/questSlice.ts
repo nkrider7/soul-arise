@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
+import { systemQuest } from '~/src/config/systemQuest';
 import { SystemQuest, UserQuest } from '~/src/type';
-
 
 
 interface QuestState {
@@ -11,17 +11,7 @@ interface QuestState {
 
 // Initial State
 const initialState: QuestState = {
-    systemQuests: [
-      {
-        id: uuid.v4() as string,
-        title: '100 Pushups',
-        goal: 100,
-        progress: 0,
-        status: 'pending',
-        type: 'fitness',
-        createdBy: 'system',
-      },
-    ],
+  systemQuests: systemQuest,
     userQuests: [],
   };
 
@@ -43,15 +33,17 @@ const questSlice = createSlice({
         const allQuests = [...state.systemQuests, ...state.userQuests];
         const quest = allQuests.find(q => q.id === action.payload.id);
         if (!quest || quest.status === 'completed') return;
-  
+      
         quest.progress += action.payload.amount;
         if (quest.progress >= quest.goal) {
           quest.progress = quest.goal;
           quest.status = 'completed';
+          // You can now handle rewards dispatch in the UI or middleware
         } else {
           quest.status = 'in_progress';
         }
       },
+      
   
       deleteUserQuest: (state, action: PayloadAction<string>) => {
         state.userQuests = state.userQuests.filter(q => q.id !== action.payload);
@@ -69,6 +61,7 @@ const questSlice = createSlice({
           item.done = !item.done;
         }
       },
+      resetQuests: () => initialState,
     },
   });
   
@@ -78,6 +71,7 @@ const questSlice = createSlice({
     updateProgress,
     deleteUserQuest,
     toggleChecklistItem,
+    resetQuests
   } = questSlice.actions;
   
   export default questSlice.reducer;

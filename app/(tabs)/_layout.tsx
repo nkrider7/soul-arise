@@ -1,7 +1,4 @@
 import { Link, Tabs } from 'expo-router';
-
-import { HeaderButton } from '../../components/HeaderButton';
-import { TabBarIcon } from '../../components/TabBarIcon';
 import { BookMarked, CircleUserRound, Flame, Swords } from "lucide-react-native"
 import { lightTheme } from '~/theme/colors';
 import { View } from 'react-native';

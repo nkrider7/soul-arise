@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { useState } from 'react';
+import { View, FlatList } from 'react-native';
 import { useAppSelector } from '~/src/store/hook/hook';
 import QuestList from './QuestList';
 import AddQuestModal from './AddQuestModal';
@@ -18,7 +18,6 @@ const QuestMainScreen = () => {
     { label: 'System Quests', data: systemQuests },
   ];
 
-  console.log(userQuests)
 
   return (
     <View className="flex-1 p-4">
@@ -40,7 +39,9 @@ const QuestMainScreen = () => {
         }
       />
 
-      <AddQuestModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+     <View className='absolute bottom-0 right-0 p-4'>
+     <AddQuestModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+     </View>
     </View>
   );
 };
