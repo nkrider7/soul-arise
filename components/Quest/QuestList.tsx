@@ -19,19 +19,20 @@ function isSystemQuest(quest: UserQuest | SystemQuest): quest is SystemQuest {
     return quest.createdBy === 'system';
 }
 const getDynamicTextStyle = (text: string) => {
-    if(text.length > 24) {
+    if (text.length > 24) {
         return 'text-xs';
     }
-    if(text.length > 19) {
+    if (text.length > 19) {
         return 'text-sm';
     }
-    if(text.length > 18) {
+    if (text.length > 18) {
         return 'text-xl';
     }
 };
 
 const QuestList = ({ quests }: Props) => {
     const dispatch = useAppDispatch();
+    console.log(quests)
 
     return (
         <FlatList
@@ -91,16 +92,34 @@ const QuestList = ({ quests }: Props) => {
 
                         {isUserQuest(item) && item.checklist && item.checklist.length > 0 && (
                             <View className="mt-3">
-                                {item.checklist.map((check) => (
-                                    <View key={check.id} className="flex-row items-center mb-1">
-                                        <Text
-                                            className={`mr-2 ${check.done ? 'text-green-600' : 'text-gray-500'}`}
+                                {item.checklist.map((check, index) => (
+                                    <TouchableOpacity
+                                        key={check.id}
+                                        className="flex-row items-center mb-2"
+                                        onPress={() => {
+                                            const updatedChecklist = item.checklist?.map((c, i) =>
+                                                i === index ? { ...c, done: !c.done } : c
+                                            );
+
+                                            // Optional: Dispatch a new action if you store checklist state
+                                        
+                                        }}
+                                    >
+                                        <View
+                                            className={`w-5 h-5 mr-3 rounded border ${check.done ? 'bg-green-500 border-green-600' : 'border-gray-400'
+                                                }`}
                                         >
-                                            {check.done ? '✓' : '○'}
-                                        </Text>
-                                        <Text className="text-sm text-gray-700">{check.title}</Text>
-                                    </View>
+                                            {check.done && <Text className="text-white text-center">✓</Text>}
+                                        </View>
+                                        <AppText
+                                            variant="bold"
+                                            className={`text-sm ${check.done ? 'text-green-400 line-through' : 'text-white'}`}
+                                        >
+                                            {check.title} 
+                                        </AppText>
+                                    </TouchableOpacity>
                                 ))}
+
                             </View>
                         )}
 

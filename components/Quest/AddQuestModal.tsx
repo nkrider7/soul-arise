@@ -6,7 +6,7 @@ import { useAppDispatch } from '~/src/store/hook/hook';
 import { addUserQuest } from '~/src/store/slices/questSlice';
 import AppButton from '../universal/AppButton';
 import uuid from 'react-native-uuid';
-import { Book, Activity, BrainCircuit, PencilLine, Laptop } from 'lucide-react-native';
+import { Book, Activity, BrainCircuit, PencilLine, Laptop, CirclePlus, Delete } from 'lucide-react-native';
 import AppText from '../universal/AppText';
 
 const iconOptions = [
@@ -129,7 +129,7 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
               onPress={handleAddChecklistItem}
               className="bg-indigo-500 px-4 py-2 rounded"
             >
-              <Text className="text-white  font-bold">+</Text>
+              <Text className="text-white  font-bold"><CirclePlus color={"white"} /></Text>
             </TouchableOpacity>
           </View>
 
@@ -139,7 +139,7 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
                 <View key={item.id} className="flex-row items-center justify-between mb-2">
                   <AppText variant='bold' className="text-sm text-gray-700">• {item.title}</AppText>
                   <TouchableOpacity onPress={() => handleRemoveChecklistItem(item.id)}>
-                    <Text className="text-red-500 font-bold">X</Text>
+                    <Text className="text-red-500 font-bold"><Delete  color={"red"}/></Text>
                   </TouchableOpacity>
                 </View>
               ))}

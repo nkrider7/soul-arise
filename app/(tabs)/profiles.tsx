@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Settings, Image, FlatList, ImageBackground, Modal, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Pressable, Settings, Image, FlatList, ImageBackground, Modal, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Container } from '~/components/Container'
 import { Cog, Flame, Settings2, Settings2Icon, SettingsIcon, UserCircle2 } from 'lucide-react-native'
@@ -7,7 +7,11 @@ import { router } from 'expo-router'
 import { HabitCounterCard } from '~/components/Habit/HabitCounterCard'
 import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook'
 import { updateDailyStatus } from '~/src/store/slices/habitCounterSlice'
-import { CustomCounterCreator } from '../(pages)/add-counter'
+import { Button } from '~/components/Button'
+import { shopItems } from '~/src/constant/shopItems'
+import { earnCoins, earnGems, spendGems } from '~/src/store/slices/currencySlice'
+import { addItem } from '~/src/store/slices/inventorySlice'
+import AppButton from '~/components/universal/AppButton'
 
 export default function Profiles() {
 
@@ -27,20 +31,25 @@ export default function Profiles() {
     const [modalVisible, setModalVisible] = useState(false)
     const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[1])
     const [selectedBg, setSelectedBg] = useState(backgroundOptions[2])
+
+    // Removed duplicate declaration of dispatch
+    const gems = useAppSelector(state => state.currency.gems);
+    const inventory = useAppSelector(state => state.inventory.items);
+
     return (
         <Container>
             {/* Header */}
             <View className="flex-row items-center  w-full justify-between px-4 pt-6 pb-3 rounded-t-2xl ">
                 {/* Left Icon */}
-                <Pressable>
+                <Pressable onPress={() => dispatch(earnGems(100))}>
                     <Flame size={32} color="yellow" />
                 </Pressable>
 
                 {/* Username */}
-                <AppText variant='bold' className="text-2xl  text-white">Profile</AppText>
+                <AppText variant='bold' className="text-2xl  text-white">Profile gem {gems}</AppText>
 
                 {/* Right Icon */}
-                <Pressable onPress={() => router.push('/(pages)/add-counter')}>
+                <Pressable onPress={() => router.push('/(pages)/settings')}>
                     <Cog size={32} color="white" />
                 </Pressable>
             </View>
@@ -68,6 +77,18 @@ export default function Profiles() {
 
                 </View>
             </View>
+            <AppButton title='earngem' onPress={() => dispatch(earnGems(100))} />
+            
+            <FlatList
+                data={inventory}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <View className="p-4 bg-gray-700 rounded-lg mb-2">
+                        <Text className="text-white text-xl">{item.name}</Text>
+                        <Text className="text-gray-400">{item.description}</Text>
+                    </View>
+                )}
+            />
             {/* <FlatList
                 data={habitCounters}
                 renderItem={({ item }) => (

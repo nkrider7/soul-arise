@@ -4,6 +4,12 @@ export type QuestStatus = 'pending' | 'in_progress' | 'completed';
 
 export type QuestType = 'fitness' | 'learning' | 'custom';
 
+export interface ChecklistItem {
+  id: string;
+  title: string;
+  done: boolean;
+}
+
 export interface QuestRewards {
   xp: number;
   statBoost?: {
@@ -31,6 +37,6 @@ export interface SystemQuest extends BaseQuest {
 export interface UserQuest extends BaseQuest {
   createdBy: 'user';
   link?: string;
-  checklist?: { id: string; title: string; done: boolean }[];
+  checklist?: ChecklistItem[];
   icon?: string;
 }

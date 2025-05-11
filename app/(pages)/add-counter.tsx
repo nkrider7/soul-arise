@@ -8,7 +8,7 @@ import { StatType } from '~/src/config/gameconfig';
 const availableIcons = ['fire', 'bolt', 'dumbbell', 'book', 'medal', 'hand-fist', 'brain'];
 const statOptions: StatType[] = ['stamina', 'intelligence', 'strength']; // Customize to your stat system
 
-export const CustomCounterCreator = () => {
+const CustomCounterCreator = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('fire');
@@ -80,3 +80,6 @@ export const CustomCounterCreator = () => {
     </View>
   );
 };
+
+
+export default CustomCounterCreator;

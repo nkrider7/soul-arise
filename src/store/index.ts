@@ -5,6 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import questReducer from './slices/questSlice';
 import currencyReducer from './slices/currencySlice'
 import habitCounterReducer from './slices/habitCounterSlice'; 
+import inventoryReducer from './slices/inventorySlice';
 
 const playerPersistConfig = {
   key: 'player',
@@ -15,12 +16,19 @@ const persistedHabitCounterReducer = persistReducer(
   habitCounterReducer
 );
 
+
+
+const inventoryPersistConfig = persistReducer(
+  { key: 'inventory', storage: AsyncStorage },
+  inventoryReducer
+);
 const persistedQuestReducer = persistReducer({ key: 'quest', storage: AsyncStorage }, questReducer);
 const persistedCurrencyReducer = persistReducer({ key: 'currency', storage: AsyncStorage }, currencyReducer);
 const persistedPlayerReducer = persistReducer(playerPersistConfig, playerReducer);
 
 export const store = configureStore({
   reducer: {
+    inventory: inventoryPersistConfig ,
     player: persistedPlayerReducer,
     quest: persistedQuestReducer,
     currency: persistedCurrencyReducer,

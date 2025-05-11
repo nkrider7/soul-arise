@@ -22,17 +22,36 @@ const StatsCard = () => {
   const statEntries = Object.entries(stats);
   const dispatch = useAppDispatch();
   const player = useAppSelector(state => state.player);
+  
   AsyncStorage.getItem('persist:root').then(data => {
     const parsed = JSON.parse(data || '{}');
     const player = parsed.player ? JSON.parse(parsed.player) : null;
     console.log('✅ Player slice data:', player);
+    
   });
   const statIcons: Record<string, JSX.Element> = {
-    strength: <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "strength", amount: 1 }))}><Dumbbell size={32} color="#6366f1" /></TouchableOpacity>,
-    stamina: <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "stamina", amount: 1 }))}> <MaterialCommunityIcons name="run" size={32} color="#10b981" /></TouchableOpacity>,
-    intelligence: <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "intelligence", amount: 1 }))}><Brain size={32} color="#f59e0b" /></TouchableOpacity>,
-    karma: <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "karma", amount: 1 }))}><MaterialCommunityIcons name="yin-yang" size={34} color="#ec4899" /></TouchableOpacity>,
+    strength: (
+      <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "strength", amount: 1 }))}>
+        <Dumbbell size={32} color="#6366f1" />
+      </TouchableOpacity>
+    ),
+    stamina: (
+      <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "stamina", amount: 1 }))}>
+        <MaterialCommunityIcons name="run" size={32} color="#10b981" />
+      </TouchableOpacity>
+    ),
+    intelligence: (
+      <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "intelligence", amount: 1 }))}>
+        <Brain size={32} color="#f59e0b" />
+      </TouchableOpacity>
+    ),
+    karma: (
+      <TouchableOpacity onPress={() => dispatch(increaseStat({ stat: "karma", amount: 1 }))}>
+        <MaterialCommunityIcons name="yin-yang" size={34} color="#ec4899" />
+      </TouchableOpacity>
+    ),
   };
+  
   return (
     <View className=" p-4 rounded-2xl shadow-md mx-4 mt-6">
 
@@ -46,7 +65,7 @@ const StatsCard = () => {
           inActiveStrokeColor="#e5e7eb"
           inActiveStrokeWidth={15}
           activeStrokeWidth={15}
-          title={`Level`}
+          title="Level"
           titleColor="#111827"
           titleStyle={{ fontFamily: 'Bold', fontSize: 20, color: 'white' }}
           valueSuffixStyle={{ fontFamily: 'Bold', fontSize: 20, color: 'white' }}
@@ -90,7 +109,8 @@ const StatsCard = () => {
               <AppText variant='bold' className="capitalize font-medium text-white">{stat}</AppText>
             </View>
             <View className="flex-row items-center gap-x-2">
-              {statIcons[stat] ?? <Text style={{ color: 'white' }}>?</Text>}
+            {statIcons.hasOwnProperty(stat) ? statIcons[stat] : <Text style={{ color: 'white' }}>?</Text>}
+
             </View>
             {/* <AppText svariant='bold' className=" text-white text-3xl">{value}</AppText>r */}
           </View>

@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
 import {
   Image,
   ImageBackground,
@@ -10,24 +8,14 @@ import {
 
 import { Container } from '~/components/Container';
 import StatsCard from '~/components/Home/statscard';
-import { Text } from '~/components/nativewindui/Text';
 import { useAppSelector } from '../../src/store/hook/hook';
 import AppText from '~/components/universal/AppText';
 import { Flame, Icon, UserCircle2, UserRound } from 'lucide-react-native';
 import { RootState } from '~/src/store';
 import PagerView from 'react-native-pager-view';
+import { router } from 'expo-router';
+import AppButton from '~/components/universal/AppButton';
 export default function Home() {
-  // const rehydrated = useAppSelector((state: any) => state._persist?.rehydrated);
-  // useEffect(() => {
-  //   if (rehydrated) {
-  //     AsyncStorage.getItem('persist:root').then(data => {
-  //       const parsed = JSON.parse(data || '{}');
-  //       const player = parsed.player ? JSON.parse(parsed.player) : null;
-  //       console.log('✅ Player slice data (after rehydrate):', player);
-  //     });
-  //   }
-  // }, []);
-
 
   const coins = useAppSelector((state: RootState) => state.currency.coins);
   const gems = useAppSelector((state: RootState) => state.currency.gems);
@@ -42,7 +30,7 @@ export default function Home() {
     {
       text: "Daily Quests Await!",
       subtext: "Don’t miss your rewards.",
-      image: require("../../assets/avatars/geto.png"),
+      image: require("../../assets/avatars/choiJongin.png"),
     },
   ];
   return (
@@ -59,7 +47,7 @@ export default function Home() {
             </Pressable>
 
             <AppText variant='bold' className="text-2xl  text-white">Jinwoo</AppText>
-            <Pressable>
+            <Pressable onPress={() => router.push('/AvatarSlection')}>
               {/* <UserCircle2 size={32} color="white" /> */}
               <ImageBackground imageStyle={{ borderRadius: 100, overflow: 'hidden' }} style={{ overflow: "hidden" }} className='rounded-full  ' source={require('../../assets/dgbg.jpg')} resizeMode="cover" >
                 <Image source={require("../../assets/avatars/avtar2.png")} className="w-12 h-12 rounded-2xl" resizeMode="contain" />
@@ -94,6 +82,8 @@ export default function Home() {
 
           </PagerView>
           <StatsCard />
+          <AppButton onPress={() => router.push('/(pages)/Shop')} className='w-11/12 mt-4' title='Shop' />
+      
         </View>
       </Container>
     </>
