@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '~/src/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useFonts } from 'expo-font';
+import { AuthProvider } from '~/src/context/AuthProvider';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -41,6 +42,7 @@ export default function RootLayout() {
 
       <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
+         <AuthProvider>
       <PersistGate loading={null} persistor={persistor}>
         <BottomSheetModalProvider>
           <ActionSheetProvider>
@@ -55,11 +57,24 @@ export default function RootLayout() {
                   headerShown: false,
                   animation: 'fade_from_bottom', // for android
                 }} />
+                <Stack.Screen name="(onboard)/AvatarSlection" options={{
+                  headerShown: false,
+                  animation: 'fade_from_bottom', // for android
+                }} />
+                <Stack.Screen name="(onboard)/login" options={{
+                  headerShown: false,
+                  animation: 'fade_from_bottom', // for android
+                }} />
+                <Stack.Screen name="(onboard)/challenges" options={{
+                  headerShown: false,
+                  animation: 'fade_from_bottom', // for android
+                }} />
               </Stack>
             </NavThemeProvider>
           </ActionSheetProvider>
         </BottomSheetModalProvider>
         </PersistGate>
+        </AuthProvider>
         </Provider>
       </GestureHandlerRootView>
 

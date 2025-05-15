@@ -1,0 +1,161 @@
+working onboarding screen   
+    select avtar 
+    after add challeges 
+    and small sarvey
+    setup profile and task 
+
+
+working Quest more powerfull 
+
+
+Of course! Here's a **full clean summary** of everything we've worked on so far — so **next time when you continue**, I will **perfectly understand** where we are ✅:
+
+---
+
+# 🧠 **Summary of All Work So Far**
+
+### 1. **Quest System**
+
+* Built `questSlice` with:
+
+  * `systemQuests` (official quests)
+  * `userQuests` (custom quests user adds)
+* Users can:
+
+  * Add custom quests
+  * Track progress
+  * Complete quests
+  * Reset quests
+  * Take challenges from system quests (`easy`, `normal`, `hard`, `custom`) based on gender
+* When user takes a **challenge**, quests are pushed into **`systemQuests`**.
+
+---
+
+### 2. **Player System**
+
+* Built `playerSlice` with:
+
+  * Player profile (name, avatar, stats)
+  * XP, Level, Rank-up system
+  * Streak tracking
+  * Accepting **Challenges**: store accepted challenge, start date, difficulty, duration.
+
+---
+
+### 3. **Challenges**
+
+* Challenges have:
+
+  * Difficulty (`easy`, `normal`, `hard`, `custom`)
+  * Gender filter (`male`, `female`, `any`)
+  * Goal (example: 2000 steps, 5km run)
+  * Duration (example: 20 days)
+* When user selects a challenge:
+
+  * Dispatch quests into questSlice
+  * Save challenge into playerSlice
+  * Navigate to Home
+
+---
+
+### 4. **Inventory System**
+
+* Built **InventoryModal** using **BottomSheetModal**:
+
+  * See inventory items
+  * Sell items for gems/coins
+  * View gems and coins
+* Fixed issue where **gems** were showing twice (now showing gems + coins correctly).
+
+---
+
+### 5. **Quest Creation**
+
+* Created **AddQuestModal**:
+
+  * Modal where user can create new custom quest
+  * Set title, goal, optional link, select icon, and add checklist
+  * Now uses **BottomSheetModal** (not regular Modal)
+  * Styled with NativeWind (`className` with TailwindCSS)
+
+---
+
+### 6. **Quest Main Screen**
+
+* Built **QuestMainScreen**:
+
+  * Shows all user quests + system quests
+  * "Add Quest" button opens `AddQuestModal`
+  * Wrapped with **BottomSheetModalProvider** for smooth modals
+  * FlatList renders sections (`Your Custom Quests` and `System Quests`)
+
+---
+
+# 📋 **Everything is using:**
+
+* **React Native**
+* **Redux Toolkit** (Slices)
+* **NativeWind** (TailwindCSS for styling)
+* **@gorhom/bottom-sheet** (for all modals)
+* **Lucide Icons** (for clean minimal icons)
+* **uuid** for IDs
+
+---
+
+# 🚀 Final Current Status
+
+| System                                             | Status |
+| :------------------------------------------------- | :----- |
+| Quests system (user + system quests)               | ✅      |
+| Challenges system (difficulty + gender + duration) | ✅      |
+| Player system (xp, level, rank, streaks)           | ✅      |
+| Inventory system (view + sell items)               | ✅      |
+| Add custom quests with checklist                   | ✅      |
+| NativeWind setup (tailwind classes)                | ✅      |
+| BottomSheetModal everywhere                        | ✅      |
+| Navigation after accepting challenge               | ✅      |
+
+---
+
+# 🔥 NEXT TIME when you continue:
+
+You can just say something like:
+
+> "Hey I want to continue building the Quest tracker from where we left."
+
+I will immediately understand exactly your system:
+✅ Quests
+✅ Player
+✅ Challenges
+✅ NativeWind
+✅ BottomSheetModal based UX
+
+**NO NEED to explain everything again.**
+
+---
+
+# 🎯
+
+✅ I understand your style.
+✅ I know your stack.
+✅ I know your design and flow goal.
+✅ I know you want clean, expandable, pro code.
+
+---
+
+# 📣 You are fully READY to build your full **Fitness x Anime RPG App!**
+
+---
+
+# ⚡ Question for you:
+
+When you come back next time —
+👉 Do you want to build **Challenge Tracker UI** (Day 1/20 progress)?
+👉 Or **Rewards popup** (when player completes a challenge)?
+
+Tell me when you come — I'm ready to help you speedrun it. 🚀🎯
+
+---
+
+Would you like me to save this full summary in a small **PDF** file too, if you want to keep it? (free optional!) 📄✅
+Just say: "Yes, PDF please." if you want it!

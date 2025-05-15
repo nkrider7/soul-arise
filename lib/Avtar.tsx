@@ -7,6 +7,7 @@ export const Avatars = [
       description: 'The main protagonist with the power of shadows.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/sungJinwoo.png'),
+      backgroundImage: require('../assets/banner/main.jpg'),
     },
     {
       name: 'Alicia Blanche',
@@ -16,6 +17,7 @@ export const Avatars = [
       description: 'A powerful water-element mage.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/aliciaBlanche.png'),
+      backgroundImage: require('../assets/banner/pink.jpg'),
     },
     {
       name: 'Cha Hae-In',
@@ -25,6 +27,7 @@ export const Avatars = [
       description: 'A high-ranking hunter with exceptional sword skills.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/chaHarin.png'),
+      backgroundImage: require('../assets/banner/redyellow.jpg'),
     },
     {
       name: 'Thomas Andre',
@@ -34,6 +37,7 @@ export const Avatars = [
       description: 'One of the top American hunters.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/thomasAndre.png'),
+      backgroundImage: require('../assets/banner/volcanic_outburst_thumb.jpg'),
     },
     {
       name: 'Baek Yoonho',
@@ -43,6 +47,7 @@ export const Avatars = [
       description: 'Leader of the White Tiger Guild.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/baekyoonho.png'),
+      backgroundImage: require('../assets/banner/impale_thumb.jpg'),
     },
     {
       name: 'Go Gunhee',
@@ -52,6 +57,7 @@ export const Avatars = [
       description: 'Chairman of the Korean Hunters Association.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/goGunhee.png'),
+      backgroundImage: require('../assets/banner/spiked_shell_thumb.jpg'),
     },
     {
       name: 'Yoo Jinho',
@@ -61,6 +67,7 @@ export const Avatars = [
       description: 'Jinwoo’s loyal friend and guild officer.',
       rankLevel: 'A',
       fullCharacterImage: require('../assets/avatars/yooJinho.png'),
+      backgroundImage: require('../assets/banner/inferno_slice_thumb.jpg'),
     },
     {
       name: 'Lee Joohee',
@@ -70,6 +77,7 @@ export const Avatars = [
       description: 'A gentle healer and early companion of Jinwoo.',
       rankLevel: 'B',
       fullCharacterImage: require('../assets/avatars/LeeJoohee.png'),
+      backgroundImage: require('../assets/banner/rejuvenate_thumb.jpg'),
     },
     {
       name: 'Woo Jinchul',
@@ -79,6 +87,7 @@ export const Avatars = [
       description: 'Chief Inspector of the Monitoring Division.',
       rankLevel: 'A',
       fullCharacterImage: require('../assets/avatars/WooJinchul.png'),
+      backgroundImage: require('../assets/banner/spiked_shell_thumb.jpg'),
     },
     {
       name: 'Emma Laurant',
@@ -88,6 +97,7 @@ export const Avatars = [
       description: 'An international mage with fiery skills.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/emmaLaurant.png'),
+      backgroundImage: require('../assets/banner/firestorm_thumb.jpg'),
     },
     {
       name: 'Kang Taeshik',
@@ -97,6 +107,7 @@ export const Avatars = [
       description: 'A rogue-type assassin hunter.',
       rankLevel: 'A',
       fullCharacterImage: require('../assets/avatars/KangTaeshik.png'),
+      backgroundImage: require('../assets/banner/frantic_lunge_thumb.jpg'),
     },
     {
       name: 'Min Byung-gu',
@@ -106,6 +117,7 @@ export const Avatars = [
       description: 'Top-tier healer with immense mana control.',
       rankLevel: 'S',
       fullCharacterImage: require('../assets/avatars/MinByung-gu.png'),
+      backgroundImage: require('../assets/banner/hydro_cleave_thumb.jpg'),
     },
     {
       name: 'Han Song Yi',
@@ -115,6 +127,7 @@ export const Avatars = [
       description: 'A mysterious hunter.',
       rankLevel: 'B',
       fullCharacterImage: require('../assets/avatars/HanSongYi.png'),
+      backgroundImage: require('../assets/banner/spiked_shell_thumb.jpg'),
     },
     {
         name: 'Amamiya Mirei',
@@ -124,6 +137,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/AmamiyaMirei.png'),
+        backgroundImage: require('../assets/banner/pink.jpg'),
       },
       {
         name: 'Charlotte',
@@ -133,6 +147,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/charlotte.png'),
+        backgroundImage: require('../assets/banner/pink.jpg'),
       },
       {
         name: 'Choi Jongin',
@@ -142,6 +157,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/choiJongin.png'),
+        backgroundImage: require('../assets/banner/volcanic_outburst_thumb.jpg'),
       },
       {
         name: 'Esil Radiru',
@@ -151,6 +167,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/esilRadiru.png'),
+        backgroundImage: require('../assets/banner/redyellow.jpg'),
       },
       {
         name: 'Gina',
@@ -160,6 +177,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/gina.png'),
+        backgroundImage: require('../assets/banner/skewer_thumb.jpg'),
       },
       {
         name: 'Han Se MI',
@@ -169,6 +187,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/hanSeMI.png'),
+        backgroundImage: require('../assets/banner/pierce_thumb.jpg'),
       },
       {
         name: 'Harper',
@@ -178,6 +197,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/harper.png'),
+        backgroundImage: require('../assets/banner/purple.jpg'),
       },
       {
         name: 'Hwang Dongsoo',
@@ -187,6 +207,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/hwangDongsoo.png'),
+        backgroundImage: require('../assets/banner/earth.jpg'),
       },
       {
         name: 'Hwang Dongsuk',
@@ -196,6 +217,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/HwangDongsuk.png'),
+        backgroundImage: require('../assets/banner/lacerate_thumb.jpg'),
       },
       {
         name: 'Isla Wright',
@@ -205,6 +227,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/islaWright.png'),
+        backgroundImage: require('../assets/banner/pierce_thumb.jpg'),
       },
       {
         name: 'Jo Kyuhwan',
@@ -214,6 +237,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/JoKyuhwan.png'),
+        backgroundImage: require('../assets/banner/jitters_thumb.jpg'),
       },
       {
         name: 'Kim Chul',
@@ -223,6 +247,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/KimChul.png'),
+        backgroundImage: require('../assets/banner/skewer_thumb.jpg'),
       },
       {
         name: 'Kim Sangshik',
@@ -232,6 +257,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/kimSangshik.png'),
+        backgroundImage: require('../assets/banner/isolate_thumb.jpg'),
       },
       {
         name: 'Lee Bora',
@@ -241,6 +267,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/LeeBora.png'),
+        backgroundImage: require('../assets/banner/pink.jpg'),
       },
       {
         name: 'Lim Taegyu',
@@ -250,6 +277,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/limTaegyu.png'),
+        backgroundImage: require('../assets/banner/hydro_gulp_thumb.jpg'),
       },
       {
         name: 'Meilin Fisher',
@@ -259,6 +287,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/meilinFisher.png'),
+        backgroundImage: require('../assets/banner/smooth_swipe_thumb.jpg'),
       },
       {
         name: 'Park Heejin',
@@ -268,6 +297,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/ParkHeejin.png'),
+        backgroundImage: require('../assets/banner/impale_thumb.jpg'),
       },
       {
         name: 'Seorin',
@@ -277,6 +307,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/seorin.png'),
+        backgroundImage: require('../assets/banner/tackle_thumb.jpg'),
       },
       {
         name: 'Shimizu Akari',
@@ -286,6 +317,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/shimizuAkari.png'),
+        backgroundImage: require('../assets/banner/going_nuclear_thumb.jpg'),
       },
       {
         name: 'Song Chiyul',
@@ -295,6 +327,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/SongChiyul.png'),
+        backgroundImage: require('../assets/banner/shadowflame_thumb.jpg'),
       },
       {
         name: 'Tawata Kanae',
@@ -304,6 +337,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/tawataKanae.png'),
+        backgroundImage: require('../assets/banner/pink.jpg'),
       },
       {
         name: 'Yooshoohyun',
@@ -313,6 +347,7 @@ export const Avatars = [
         description: '',
         rankLevel: '',
         fullCharacterImage: require('../assets/avatars/Yooshoohyun.png'),
+        backgroundImage: require('../assets/banner/purple.jpg'),
       },
   ];
   

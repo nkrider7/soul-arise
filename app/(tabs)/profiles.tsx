@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Settings, Image, FlatList, ImageBackground, Modal, ScrollView, TouchableOpacity, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { JSX, useState } from 'react'
 import { Container } from '~/components/Container'
-import { Cog, Flame, Settings2, Settings2Icon, SettingsIcon, UserCircle2 } from 'lucide-react-native'
+import { Brain, Cog, Dumbbell, Flame, Mars, Settings2, Settings2Icon, SettingsIcon, UserCircle2, Venus } from 'lucide-react-native'
 import AppText from '~/components/universal/AppText'
 import { router } from 'expo-router'
 import { HabitCounterCard } from '~/components/Habit/HabitCounterCard'
@@ -12,41 +12,55 @@ import { shopItems } from '~/src/constant/shopItems'
 import { earnCoins, earnGems, spendGems } from '~/src/store/slices/currencySlice'
 import { addItem } from '~/src/store/slices/inventorySlice'
 import AppButton from '~/components/universal/AppButton'
+import { RootState } from '~/src/store'
+import { lightTheme } from '~/theme/colors'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function Profiles() {
 
     const dispatch = useAppDispatch()
     const habitCounters = useAppSelector(state => state.habitCounter.counters)
+    const player = useAppSelector((state: RootState) => state.player);
+    const strike = useAppSelector((state: RootState) => state.player.currentStreak);
 
-    const avatarOptions = [
-        require('../../assets/avatars/avtar1.png'),
-        require('../../assets/avatars/avtar2.png'),
-    ]
-
-    const backgroundOptions = [
-        require('../../assets/bg1.jpg'),
-        require('../../assets/dgbg.jpg'),
-
-    ]
     const [modalVisible, setModalVisible] = useState(false)
-    const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[1])
-    const [selectedBg, setSelectedBg] = useState(backgroundOptions[2])
-
-    // Removed duplicate declaration of dispatch
+    const { stats, xp, level, rank } = useAppSelector(state => state.player);
     const gems = useAppSelector(state => state.currency.gems);
     const inventory = useAppSelector(state => state.inventory.items);
+    const statEntries = Object.entries(stats);
+    const statIcons: Record<string, JSX.Element> = {
+        strength: (
+            <TouchableOpacity>
+                <Dumbbell size={32} color="#6366f1" />
+            </TouchableOpacity>
+        ),
+        stamina: (
+            <TouchableOpacity>
+                <MaterialCommunityIcons name="run" size={32} color="#10b981" />
+            </TouchableOpacity>
+        ),
+        intelligence: (
+            <TouchableOpacity >
+                <Brain size={32} color="#f59e0b" />
+            </TouchableOpacity>
+        ),
+        karma: (
+            <TouchableOpacity >
+                <MaterialCommunityIcons name="yin-yang" size={34} color="#ec4899" />
+            </TouchableOpacity>
+        ),
+    };
+
 
     return (
         <Container>
             {/* Header */}
             <View className="flex-row items-center  w-full justify-between px-4 pt-6 pb-3 rounded-t-2xl ">
                 {/* Left Icon */}
-                <Pressable onPress={() => dispatch(earnGems(100))}>
-                    <Flame size={32} color="yellow" />
+                <Pressable onPress={() => dispatch(earnGems(100))} className='flex flex-row items-center gap-x-1'>
+                    <Flame size={24} color="yellow" fill={"yellow"} />
+                    <AppText variant='bold' className='text-yellow-400'>{strike} days</AppText>
                 </Pressable>
-
-                {/* Username */}
-                <AppText variant='bold' className="text-2xl  text-white">Profile gem {gems}</AppText>
 
                 {/* Right Icon */}
                 <Pressable onPress={() => router.push('/(pages)/settings')}>
@@ -56,29 +70,49 @@ export default function Profiles() {
 
             <View className="flex-1  items-center">
 
-                <View className="items-center justify-center px-6">
-                    <ImageBackground
-                        imageStyle={{ borderRadius: 100, overflow: 'hidden' }}
+                <View className="items-starta justify-start px-6">
+                   <View className='flex-row justify-start gap-x-4 w-full'>
+                     <ImageBackground
+                        imageStyle={{ borderRadius: 100, overflow: 'hidden', borderColor: lightTheme.secondary, borderWidth: 4 }}
                         style={{ overflow: "hidden" }}
                         className='rounded-full'
-                        source={selectedBg}
+                        source={player.character?.backgroundImage}
                         resizeMode="cover"
                     >
-                        <Image source={selectedAvatar} className="w-28 h-28 rounded-2xl" resizeMode="contain" />
+                        <Image source={player.character?.image} className="w-32 h-32 rounded-2xl" resizeMode="contain" />
                     </ImageBackground>
+                    <View>
+                        <AppText variant='bold' className="text-white text-3xl mt-2 ">{player.character?.name}</AppText>
+                    <View className=" flex-row items-center gap-x-2">{player.character?.gender === 'female' ? <Venus color="pink" /> : <Mars color="#5865F2" />}<AppText variant='bold' className='text-white text-lg '>{player.character?.gender}</AppText></View>
+                    <AppText variant='bold' className="text-white text-sm mt-2 ">Hello, I am a programmmer</AppText>
 
-                    <Text className="text-white text-xl font-bold">Sung Jinwoo</Text>
-                    <Pressable
-                        className="mt-4 px-4 py-2 bg-white rounded-full"
-                        onPress={() => setModalVisible(true)}
-                    >
-                        <Text className="text-black font-bold">Switch Avatar</Text>
-                    </Pressable>
+                    </View>
+                   </View>
 
+
+                    <View className="flex-row flex-wrap gap-y-1 justify-between mt-4">
+                        {statEntries.map(([stat, value]) => (
+                            <View
+                                key={stat}
+                                style={{ backgroundColor: lightTheme.background2 }}
+                                className="w-[48%] flex flex-row items-center justify-between  px-4 py-4 mb-2 rounded-lg"
+                            >
+                                <View>
+                                    <AppText variant='bold' className=" text-white text-3xl">{value}</AppText>
+                                    <AppText variant='bold' className="capitalize font-medium text-white">{stat}</AppText>
+                                </View>
+                                <View className="flex-row items-center gap-x-2">
+                                    {statIcons.hasOwnProperty(stat) ? statIcons[stat] : <Text style={{ color: 'white' }}>?</Text>}
+
+                                </View>
+                                {/* <AppText svariant='bold' className=" text-white text-3xl">{value}</AppText>r */}
+                            </View>
+                        ))}
+                    </View>
                 </View>
             </View>
-            <AppButton title='earngem' onPress={() => dispatch(earnGems(100))} />
-            
+
+
             <FlatList
                 data={inventory}
                 keyExtractor={item => item.id}
@@ -89,6 +123,10 @@ export default function Profiles() {
                     </View>
                 )}
             />
+
+
+
+
             {/* <FlatList
                 data={habitCounters}
                 renderItem={({ item }) => (
@@ -105,41 +143,7 @@ export default function Profiles() {
                 keyExtractor={item => item.id}
             />
             <CustomCounterCreator /> */}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View className="flex-1 bg-black bg-opacity-80 justify-center items-center px-4">
-                    <View className="bg-white rounded-xl p-4 w-full max-w-md">
-                        <Text className="text-lg font-bold mb-2 text-center">Choose Avatar</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4">
-                            {avatarOptions.map((img, index) => (
-                                <TouchableOpacity key={index} onPress={() => setSelectedAvatar(img)}>
-                                    <Image source={img} className="w-20 h-20 mx-2 rounded-full" resizeMode="cover" />
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
 
-                        <Text className="text-lg font-bold mb-2 text-center">Choose Background</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                            {backgroundOptions.map((bg, index) => (
-                                <TouchableOpacity key={index} onPress={() => setSelectedBg(bg)}>
-                                    <Image source={bg} className="w-24 h-16 mx-2 rounded-lg" resizeMode="cover" />
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-
-                        <Pressable
-                            className="mt-4 bg-black py-2 rounded-lg"
-                            onPress={() => setModalVisible(false)}
-                        >
-                            <Text className="text-white text-center font-bold">Done</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
 
         </Container>
 

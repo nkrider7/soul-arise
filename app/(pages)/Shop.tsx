@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import InventoryModal from '~/components/Inventory/InventoryModel';
 import AppText from '~/components/universal/AppText'
 import { shopItems } from '~/src/constant/shopItems';
@@ -21,6 +21,7 @@ function Shop() {
                 name: itemFromShop.name,
                 description: itemFromShop.description,
                 type: itemFromShop.type,
+                icon: itemFromShop.icon,
                 price: itemFromShop.priceGems, 
                 currencyType: "gems" as "gems", 
               };
@@ -60,7 +61,9 @@ function Shop() {
                     <View className="flex-row bg-gray-800 rounded-2xl p-4 mb-5 items-center">
 
                         {/* Image Placeholder */}
-                        <View className="w-16 h-16 bg-gray-600 rounded-md mr-4" />
+                        <View className="w-16 h-16 bg-sky-300 rounded-md mr-4" >
+                            <Image source={item.icon} className='h-16 w-16 '  />
+                        </View>
 
                         {/* Item Info */}
                         <View className="flex-1">

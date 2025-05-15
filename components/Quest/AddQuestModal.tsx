@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Modal, View, Text, TextInput, TouchableOpacity, FlatList,
-} from 'react-native';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useAppDispatch } from '~/src/store/hook/hook';
 import { addUserQuest } from '~/src/store/slices/questSlice';
 import AppButton from '../universal/AppButton';
@@ -17,16 +16,31 @@ const iconOptions = [
   { name: 'Laptop', component: Laptop },
 ];
 
-const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
+type AddQuestModalProps = {
+  visible: boolean;
+  onClose: () => void;
+};
+
+const AddQuestModal = ({ visible, onClose }: AddQuestModalProps) => {
   const dispatch = useAppDispatch();
 
   const [title, setTitle] = useState('');
   const [goal, setGoal] = useState('');
   const [icon, setIcon] = useState<string | undefined>(undefined);
   const [link, setLink] = useState('');
-
   const [checklistInput, setChecklistInput] = useState('');
   const [checklist, setChecklist] = useState<{ id: string; title: string; done: boolean }[]>([]);
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ['75%'], []);
+
+  useEffect(() => {
+    if (visible) {
+      bottomSheetModalRef.current?.present();
+    } else {
+      bottomSheetModalRef.current?.dismiss();
+    }
+  }, [visible]);
 
   const handleAddChecklistItem = () => {
     if (!checklistInput.trim()) return;
@@ -43,7 +57,7 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
 
   const handleAdd = () => {
     if (!title || !goal) return;
-    
+
     dispatch(addUserQuest({
       title,
       goal: parseInt(goal),
@@ -51,12 +65,12 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
       status: 'pending',
       type: 'custom',
       link,
-      icon, // icon is stored as string (e.g., "BrainCircuit")
+      icon,
       checklist,
       createdBy: 'user',
     }));
 
-    // Reset state
+    // Reset everything
     setTitle('');
     setGoal('');
     setIcon(undefined);
@@ -66,37 +80,45 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View className="flex-1 justify-end bg-black/50 text-red-600" >
-        <View className="bg-white rounded-t-2xl p-5">
-          <AppText variant='bold' className="text-lg mb-4">Add New Quest</AppText>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        snapPoints={snapPoints}
+        onDismiss={onClose}
+        backgroundStyle={{ backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+      >
+        <View className="flex- p-5">
+          <AppText variant="bold" className="text-lg mb-4">Add New Quest</AppText>
 
+          {/* Title Input */}
           <TextInput
             className="border p-2 mb-2 rounded"
             placeholder="Title"
-            style={{ fontFamily: 'Bold'}}
+            style={{ fontFamily: 'Bold' }}
             value={title}
             onChangeText={setTitle}
           />
 
+          {/* Goal Input */}
           <TextInput
             className="border p-2 mb-2 rounded"
             placeholder="Goal (Number)"
-            value={goal}
-            style={{ fontFamily: 'Bold'}}
+            style={{ fontFamily: 'Bold' }}
             keyboardType="numeric"
+            value={goal}
             onChangeText={setGoal}
           />
 
+          {/* Link Input */}
           <TextInput
             className="border p-2 mb-2 rounded"
             placeholder="Link (optional)"
-            style={{ fontFamily: 'Bold'}}
+            style={{ fontFamily: 'Bold' }}
             value={link}
             onChangeText={setLink}
           />
 
-          <AppText variant='bold' className="mb-2 text-gray-700">Choose Icon</AppText>
+          {/* Icon Selection */}
+          <AppText variant="bold" className="mb-2 text-gray-700">Choose Icon</AppText>
           <FlatList
             horizontal
             data={iconOptions}
@@ -113,23 +135,24 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
                 </TouchableOpacity>
               );
             }}
+            showsHorizontalScrollIndicator={false}
           />
 
-          {/* Checklist Input */}
-          <AppText variant='bold' className="text-base mt-4 mb-2 font-semibold text-gray-800">Checklist</AppText>
+          {/* Checklist */}
+          <AppText variant="bold" className="text-base mt-4 mb-2 text-gray-800">Checklist</AppText>
           <View className="flex-row items-center">
             <TextInput
               className="flex-1 border p-2 rounded mr-2"
               placeholder="Add checklist item"
+              style={{ fontFamily: 'Bold' }}
               value={checklistInput}
-              style={{ fontFamily: 'Bold'}}
               onChangeText={setChecklistInput}
             />
             <TouchableOpacity
               onPress={handleAddChecklistItem}
               className="bg-indigo-500 px-4 py-2 rounded"
             >
-              <Text className="text-white  font-bold"><CirclePlus color={"white"} /></Text>
+              <CirclePlus color="white" />
             </TouchableOpacity>
           </View>
 
@@ -137,24 +160,24 @@ const AddQuestModal = ({ visible, onClose }: { visible: boolean; onClose: () => 
             <View className="mt-3">
               {checklist.map(item => (
                 <View key={item.id} className="flex-row items-center justify-between mb-2">
-                  <AppText variant='bold' className="text-sm text-gray-700">• {item.title}</AppText>
+                  <AppText variant="bold" className="text-sm text-gray-700">• {item.title}</AppText>
                   <TouchableOpacity onPress={() => handleRemoveChecklistItem(item.id)}>
-                    <Text className="text-red-500 font-bold"><Delete  color={"red"}/></Text>
+                    <Delete color="red" />
                   </TouchableOpacity>
                 </View>
               ))}
             </View>
           )}
 
-          <AppButton title="Add Quest"  onPress={handleAdd} style={{ marginTop: 16 }} />
+          {/* Buttons */}
+          <AppButton title="Add Quest" onPress={handleAdd} style={{ marginTop: 16 }} />
           <AppButton
             title="Cancel"
             onPress={onClose}
             style={{ marginTop: 8, backgroundColor: '#ccc' }}
           />
         </View>
-      </View>
-    </Modal>
+      </BottomSheetModal>
   );
 };
 

@@ -78,6 +78,6 @@ export const lightTheme = {
   card: COLORS.light.card,
   text: COLORS.light.foreground,
   border: COLORS.light.grey3,
-  mypurple: "#10b981",
+  mypurple: "#5E0FD2",
  
 }

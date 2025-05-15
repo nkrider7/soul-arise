@@ -32,6 +32,9 @@ export interface BaseQuest {
 
 export interface SystemQuest extends BaseQuest {
   createdBy: 'system';
+  checklist?: ChecklistItem[];
+  icon?: string;
+  link?: string;
 }
 
 export interface UserQuest extends BaseQuest {

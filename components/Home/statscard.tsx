@@ -1,5 +1,5 @@
 // components/StatsCard.tsx
-import React, { useEffect } from 'react';
+import React, { JSX, useEffect } from 'react';
 import { View, Text, Button, Touchable, TouchableOpacity } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../src/store/hook/hook';
 import { FontAwesome5, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';

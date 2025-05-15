@@ -6,6 +6,7 @@ import { getLucideIcon } from './IconsHelp';
 import AppText from '../universal/AppText';
 import { lightTheme } from '~/theme/colors';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import AppButton from '../universal/AppButton';
 
 
 interface Props {
@@ -102,7 +103,7 @@ const QuestList = ({ quests }: Props) => {
                                             );
 
                                             // Optional: Dispatch a new action if you store checklist state
-                                        
+
                                         }}
                                     >
                                         <View
@@ -115,7 +116,7 @@ const QuestList = ({ quests }: Props) => {
                                             variant="bold"
                                             className={`text-sm ${check.done ? 'text-green-400 line-through' : 'text-white'}`}
                                         >
-                                            {check.title} 
+                                            {check.title}
                                         </AppText>
                                     </TouchableOpacity>
                                 ))}
@@ -126,24 +127,16 @@ const QuestList = ({ quests }: Props) => {
                         <View className='flex-row justify-between'>{/* Progress Buttons */}
                             <View className=''>
                                 {!isComplete && (
-                                    <View className="mt-3 flex-col w-48 gap-y-2">
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                dispatch(updateProgress({ id: item.id, amount: 1 }))
-                                            }
-                                            className="flex-1 py-2 rounded-lg items-center bg-indigo-500"
-                                        >
-                                            <Text className="text-white font-semibold">+1 Progress</Text>
-                                        </TouchableOpacity>
+                                    <View className="mt-3 flex-col w-48 ">
 
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                dispatch(updateProgress({ id: item.id, amount: remaining }))
-                                            }
-                                            className="flex-1 py-2 rounded-lg items-center bg-green-600"
-                                        >
-                                            <Text className="text-white font-semibold">Complete Now</Text>
-                                        </TouchableOpacity>
+                                        <AppButton size='sm' variant='secondary' className='my-0' onPress={() =>
+                                            dispatch(updateProgress({ id: item.id, amount: 1 }))
+                                        } title='+1 Progress' />
+                                        <AppButton size='sm' variant='success' onPress={() =>
+                                            dispatch(updateProgress({ id: item.id, amount: remaining }))
+                                        } title='Complete Now' />
+
+
                                     </View>
                                 )}
 

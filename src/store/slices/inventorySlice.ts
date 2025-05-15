@@ -7,7 +7,7 @@ interface Item {
   name: string;
   description: string;
   type: 'weapon' | 'armor' | 'consumable';
-  icon?: string;
+  icon?: any ;
   price?: number; // ADD this field if not yet (price of selling)
   currencyType?: 'coins' | 'gems'; // Whether it sells for coins or gems
 }

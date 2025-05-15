@@ -2,13 +2,30 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import GAME_CONFIG, { StatType } from '../../config/gameconfig';
 import { QuestRewards } from '~/src/type';
 import { differenceInCalendarDays } from 'date-fns'; 
+import { Difficulty } from '~/src/config/challenge';
 
-export interface Character {
+interface Character {
   name: string;
-  image: string; // local path or remote URL
+  image: any; // can be local require() or URL
+  fullCharacterImage: any;
+  backgroundImage: any;
   powers: string[];
   gender: 'male' | 'female' | 'other';
   description?: string;
+  rankLevel?: string;
+}
+
+interface AcceptedChallenge {
+  challengeId: string;
+  startDate: string;
+  difficulty: Difficulty;
+  durationDays: number;
+  completed: boolean;
+}
+interface AcceptChallengePayload {
+  challengeId: string;
+  difficulty: Difficulty;
+  durationDays: number;
 }
 
 interface PlayerState {
@@ -24,6 +41,7 @@ interface PlayerState {
   maxStreak: number;
   lastActiveDate: string | null;
   character: Character | null;
+  acceptedChallenges: AcceptedChallenge[];  // <-- NEW
 }
 
 interface IncreaseStatPayload {
@@ -47,12 +65,17 @@ const initialState: PlayerState = {
   maxStreak: 0,
   lastActiveDate: null,
   character: null,
+  acceptedChallenges: [],  // <-- NEW
 };
 
 const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
+    selectCharacter: (state, action: PayloadAction<Character>) => {
+      state.character = action.payload;
+      state.avatar = action.payload.image; // Sync avatar field separately if needed
+    },
     gainXP: (state, action: PayloadAction<number>) => {
       state.xp += action.payload;
       while (state.xp >= GAME_CONFIG.levelXp) {
@@ -118,11 +141,22 @@ const playerSlice = createSlice({
 
       state.lastActiveDate = today;
     },
+    acceptChallenge: (state, action: PayloadAction<AcceptChallengePayload>) => {
+      const { challengeId, difficulty, durationDays } = action.payload;
+      state.acceptedChallenges.push({
+        challengeId,
+        startDate: new Date().toISOString(),
+        difficulty,
+        durationDays,
+        completed: false,
+      });
+    },
+
     
   },
 
 });
 
-export const { gainXP, increaseStat, applyQuestRewards } = playerSlice.actions;
+export const { gainXP, increaseStat, applyQuestRewards, acceptChallenge, selectCharacter } = playerSlice.actions;
 
 export default playerSlice.reducer;

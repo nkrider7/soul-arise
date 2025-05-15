@@ -6,28 +6,18 @@ import questReducer from './slices/questSlice';
 import currencyReducer from './slices/currencySlice'
 import habitCounterReducer from './slices/habitCounterSlice'; 
 import inventoryReducer from './slices/inventorySlice';
+import authReducer from './slices/authSlice';
 
-const playerPersistConfig = {
-  key: 'player',
-  storage: AsyncStorage,
-};
-const persistedHabitCounterReducer = persistReducer(
-  { key: 'habitCounter', storage: AsyncStorage },
-  habitCounterReducer
-);
-
-
-
-const inventoryPersistConfig = persistReducer(
-  { key: 'inventory', storage: AsyncStorage },
-  inventoryReducer
-);
+const persistedHabitCounterReducer = persistReducer({ key: 'habitCounter', storage: AsyncStorage },habitCounterReducer);
+const inventoryPersistConfig = persistReducer({ key: 'inventory', storage: AsyncStorage },inventoryReducer);
 const persistedQuestReducer = persistReducer({ key: 'quest', storage: AsyncStorage }, questReducer);
 const persistedCurrencyReducer = persistReducer({ key: 'currency', storage: AsyncStorage }, currencyReducer);
-const persistedPlayerReducer = persistReducer(playerPersistConfig, playerReducer);
+const persistedPlayerReducer = persistReducer({key: 'player',storage: AsyncStorage,}, playerReducer);
+const persistedAuthReducer = persistReducer({ key: 'auth', storage: AsyncStorage }, authReducer);
 
 export const store = configureStore({
   reducer: {
+    auth: persistedAuthReducer,
     inventory: inventoryPersistConfig ,
     player: persistedPlayerReducer,
     quest: persistedQuestReducer,

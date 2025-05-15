@@ -1,53 +1,45 @@
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  TouchableOpacityProps,
-} from 'react-native';
-import { lightTheme } from '~/theme/colors';
-import AppText from './AppText';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import AppText from './AppText'; // Assuming you already have this component
+import { Button } from '../nativewindui/Button';
 
 interface AppButtonProps extends TouchableOpacityProps {
   title: string;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+  variant?: 'primary' | 'secondary' | 'danger' | 'success'; // Different colors
+  size?: 'xs' |  'sm' | 'md' | 'lg'; // Different sizes
 }
+
+const colorVariants = {
+  primary: 'bg-teal-400 border-teal-500 text-teal-100',
+  secondary: 'bg-purple-600 border-purple-500 text-purple-100',
+  danger: 'bg-red-500 border-red-600 text-red-100',
+  success: 'bg-green-500 border-green-600 text-green-100',
+};
+
+const sizeVariants = {
+  xs: 'py-1 px-2 text-xs',
+  sm: 'py-2 px-4 text-sm',
+  md: 'py-3 px-6 text-base',
+  lg: 'py-4 px-8 text-lg',
+};
 
 export default function AppButton({
   title,
-  onPress,
-  style,
-  textStyle,
-  disabled,
-  ...rest
+  variant = 'primary',
+  size = 'md',
+  className = '',
+  ...props
 }: AppButtonProps) {
+  const colorClass = colorVariants[variant];
+  const sizeClass = sizeVariants[size];
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.button, disabled && styles.disabled, style]}
-      activeOpacity={0.8}
-      disabled={disabled}
-      {...rest}
+    <Button
+      className={`rounded-lg border-2 m-2 items-center justify-center ${colorClass.split(' ').slice(0,2).join(' ')} ${sizeClass} ${className}`}
+      {...props}
     >
-      <AppText variant='bold' className='text-white' style={textStyle as TextStyle | TextStyle[] | undefined}>{title}</AppText>
-    </TouchableOpacity>
+      <AppText variant='bold' className={`${colorClass.split(' ')[2]} ${sizeClass.split(' ')[2]}`}>
+        {title}
+      </AppText>
+    </Button>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: lightTheme.secondary,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    alignItems: 'center',
-  },
-  disabled: {
-    backgroundColor: '#d3d3d3',
-  },
-  
-});

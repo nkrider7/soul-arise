@@ -7,28 +7,39 @@ import {
   FlatList,
   Dimensions,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
+import { Button } from '~/components/nativewindui/Button';
+import AppText from '~/components/universal/AppText';
 import { Avatars } from '~/lib/Avtar';
+import { useDispatch } from 'react-redux';
+import { selectCharacter } from '~/src/store/slices/playerSlice';
+import { router } from 'expo-router';
+import { lightTheme } from '~/theme/colors';
 
 const { width } = Dimensions.get('window');
 
 export default function AvatarSelectScreen() {
+  const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [customName, setCustomName] = useState(Avatars[0].name); // <-- New state
   const pagerRef = useRef<PagerView>(null);
   const activeCharacter = Avatars[activeIndex];
 
   const handleSelectCharacter = (index: number) => {
     setActiveIndex(index);
-    pagerRef.current?.setPage(index); // sync pager to selected grid character
+    setCustomName(Avatars[index].name); // Reset custom name when avatar changes
+    pagerRef.current?.setPage(index);
   };
 
-  const renderGridItem = ({ item, index }: { item: { image: any }; index: number }) => (
+  const renderGridItem = ({ item, index }: { item: { image: any, gender: string }; index: number }) => (
     <TouchableOpacity
       onPress={() => handleSelectCharacter(index)}
-      className={`w-[22%] aspect-square m-1.5 rounded-xl overflow-hidden ${index === activeIndex ? 'border-2 border-white' : 'border border-gray-600'
-        }`}
+      className={`w-[22%] aspect-square m-1.5 rounded-xl overflow-hidden ${
+        index === activeIndex ? 'border-2 border-white' : 'border border-gray-600'
+      } ${item.gender === 'male' ? 'bg-teal-500' : 'bg-purple-600'}`}
     >
       <Image source={item.image} className="w-full h-full" resizeMode="cover" />
     </TouchableOpacity>
@@ -41,47 +52,67 @@ export default function AvatarSelectScreen() {
         ref={pagerRef}
         style={{ height: 400, overflow: 'visible', paddingBottom: 20 }}
         initialPage={0}
-        onPageSelected={(e) => setActiveIndex(e.nativeEvent.position)}
-
+        onPageSelected={(e) => handleSelectCharacter(e.nativeEvent.position)}
       >
         {Avatars.map((char, i) => (
           <ImageBackground
             key={i}
-            source={require('../../assets/dgbg.jpg')} // add this field to your avatar data
-            className=""
-
+            source={char.backgroundImage}
+            className="pt-10"
           >
             <ImageBackground
-              key={i}
-              source={char.fullCharacterImage} // add this field to your avatar data
-              className="flex-1 items-center  justify-end pb-10 "
+              source={char.fullCharacterImage}
+              className="flex-1 items-center justify-end pb-10"
               resizeMode="cover"
-            >
-              {/* Avatar Circle */}
-              {/* <View className="absolute bottom-[-10px] w-28 h-28 rounded-full border-4 border-white bg-neutral-800 overflow-hidden z-10">
-              <Image source={char.image} className="w-full h-full" resizeMode="cover" />
-            </View>
-             */}
-            </ImageBackground>
+            />
           </ImageBackground>
         ))}
-        {/* Character Info */}
-
       </PagerView>
 
-      <View className="items-center flex flex-row  gap-x-4 mb-4 p-4">
-        <View className=" w-28 h-28 rounded-full border-4 border-white bg-neutral-800 overflow-hidden z-10">
+      <View className="items-center flex flex-row gap-x-4 mb-4 p-4">
+        <View className="w-28 h-28 rounded-full border-4 border-white bg-white overflow-hidden z-10">
           <Image source={activeCharacter.image} className="w-full h-full" resizeMode="cover" />
         </View>
-       <View>
-       <Text className="text-white text-2xl font-bold flex justify-center items-center">{activeCharacter.gender === 'female'? <Venus color={"pink"} /> : <Mars color={"#5865F2"} /> } {activeCharacter.name}</Text>
-        <Text className="text-gray-300 text-sm mt-1">
-          Powers: {activeCharacter.powers.length > 0 ? activeCharacter.powers.join(', ') : 'Unknown'}
-        </Text>
-        <Text className="text-gray-400 text-xs mt-0.5">
-          Rank: {activeCharacter.rankLevel || 'Unranked'}
-        </Text>
-       </View>
+
+        <View className="flex-1">
+          {/* Editable Name */}
+          <TextInput
+            value={customName}
+            onChangeText={setCustomName}
+            placeholder="Enter name"
+            placeholderTextColor="#ccc"
+            style={{backgroundColor:lightTheme.background2, textDecorationStyle: 'dashed'}}
+            className="text-white w-48 text-2xl no-underline font-bold mb-1 border-b border-gray-400"
+          />
+          
+          <View className="flex flex-row items-center">
+            <AppText variant='normal' className="text-white text-lg">{activeCharacter.gender === 'female' ? <Venus color="pink" /> : <Mars color="#5865F2" />}</AppText>
+          </View>
+
+          <AppText variant='normal' className="text-gray-300 text-sm mt-1">
+            Powers: {activeCharacter.powers.length > 0 ? activeCharacter.powers.join(', ') : 'Unknown'}
+          </AppText>
+          <AppText variant='bold' className="text-gray-400 text-xs mt-0.5">
+            Rank: {activeCharacter.rankLevel || 'Unranked'}
+          </AppText>
+
+          <Button
+            size={'sm'}
+            className="bg-teal-400 w-20 mt-2 border-2 rounded-lg border-teal-500"
+            onPress={() => {
+              dispatch(
+                selectCharacter({
+                  ...activeCharacter,
+                  name: customName.trim() || activeCharacter.name, // Save custom name
+                  gender: activeCharacter.gender as 'male' | 'female' | 'other',
+                })
+              );
+              router.navigate('/(onboard)/challenges');
+            }}
+          >
+            <AppText variant='bold' className="text-sm text-teal-100">Next</AppText>
+          </Button>
+        </View>
       </View>
 
       {/* Character Grid */}

@@ -1,151 +1,79 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useRef, useMemo } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook';
 import { sellItem } from '~/src/store/slices/inventorySlice';
+import AppText from '../universal/AppText';
+import { CircleDollarSign, Gem } from 'lucide-react-native';
 
 type InventoryModalProps = {
     visible: boolean;
     onClose: () => void;
 };
 
-function InventoryModal({ visible, onClose }: InventoryModalProps) {
-    const dispatch = useAppDispatch();
-    const inventory = useAppSelector(state => state.inventory.items);
+export default function InventoryModal({ visible, onClose }: InventoryModalProps) {
+  const dispatch = useAppDispatch();
+  const inventory = useAppSelector(state => state.inventory.items);
+  const gems = useAppSelector(state => state.currency.gems);
+  const coins = useAppSelector(state => state.currency.coins);
 
-    return (
-        <Modal
-            animationType="slide"
-            transparent
-            visible={visible}
-            onRequestClose={onClose}
-        >
-            <TouchableWithoutFeedback onPress={onClose}>
-                <View style={styles.overlay}>
-                    {/* Prevent clicks on modal body from closing */}
-                    <TouchableWithoutFeedback onPress={() => { }}>
-                        <View style={styles.modalContainer}>
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-                            {/* Header */}
-                            <View style={styles.header}>
-                                <Text style={styles.headerTitle}>Inventory</Text>
-                                <View style={styles.headerRight}>
-                                    <Text style={styles.headerTotal}>Total: {inventory.length}</Text>
-                                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                                        <Text style={styles.closeButtonText}>⌃</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+  const snapPoints = useMemo(() => ['60%', '85%'], []);
 
-                            {/* Inventory Grid */}
-                            <FlatList
-                                data={inventory}
-                                keyExtractor={(item) => item.id}
-                                numColumns={2}
-                                columnWrapperStyle={styles.columnWrapper}
-                                contentContainerStyle={styles.listContent}
-                                renderItem={({ item }) => (
-                                    <View style={styles.itemCard}>
-                                        {/* Image placeholder */}
-                                        <View style={styles.imagePlaceholder} />
+  React.useEffect(() => {
+    if (visible) {
+      bottomSheetModalRef.current?.present();
+    } else {
+      bottomSheetModalRef.current?.dismiss();
+    }
+  }, [visible]);
 
-                                        {/* Item Details */}
-                                        <View style={styles.itemDetails}>
-                                            <Text style={styles.itemName}>{item.name}</Text>
-                                            <Text style={styles.itemDesc}>{item.description}</Text>
-                                            <Text style={styles.itemType}>Type: {item.type}</Text>
-                                            <TouchableOpacity onPress={() => dispatch(sellItem(item.id))}>
-                                                <Text>Sell</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                )}
-                            />
-                        </View>
-                    </TouchableWithoutFeedback>
+  return (
+    <BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        snapPoints={snapPoints}
+        onDismiss={onClose}
+        backgroundStyle={{ backgroundColor: '#1F2937', borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+      >
+        <View className="flex-1 p-4">
+          {/* Header */}
+          <View className="flex-row justify-between items-center mb-4">
+            <AppText variant='bold' className="text-white text-xl font-bold">Inventory</AppText>
+            <View className="flex-row items-center">
+             
+              <View  className="text-white flex-row items-center justify-center text-sm"><Gem fill={"red"} color={"purple"} /> <AppText className='text-purple-700'>{gems}</AppText></View>
+              <View  className="text-white flex-row items-center justify-center text-sm ml-2"><CircleDollarSign color={'yellow'} /> <Text>{gems}</Text></View>
+            </View>
+          </View>
+
+          {/* Inventory List */}
+          <FlatList
+            data={inventory}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 12 }}
+            contentContainerStyle={{ paddingBottom: 16 }}
+            renderItem={({ item }) => (
+              <View className="bg-gray-700  rounded-xl p-2 w-[48%] flex-row justify-start items-start">
+                <View className="w-12 h-12 bg-gray-600  rounded-md mr-2">
+                  <Image source={item.icon} className="w-full h-full rounded-md" />
+                  <TouchableOpacity onPress={() => dispatch(sellItem(item.id))} className='bg-red-500 flex  rounded-md p-1 mt-2 justify-center items-center '>
+                    <AppText variant='bold' className="text-white text-xs">Sell</AppText>
+                  </TouchableOpacity>
                 </View>
-            </TouchableWithoutFeedback>
-        </Modal>
-    );
+                <View className="flex-1">
+                  <AppText variant='bold' className="text-white leading-4 text-sm font-semibold">{item.name}</AppText>
+                  <Text className="text-gray-300 text-xs">{item.description}</Text>
+                  <Text className="text-gray-400 text-xs mt-1">Type: {item.type}</Text>
+                  
+                </View>
+              </View>
+            )}
+          />
+        </View>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
+  );
 }
-
-export default InventoryModal;
-
-const styles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0,0,0,0.5)', // transparent black
-    },
-    modalContainer: {
-        backgroundColor: '#1F2937', // gray-800
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        padding: 16,
-        maxHeight: '85%',
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 16,
-    },
-    headerTitle: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    headerRight: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    headerTotal: {
-        color: 'white',
-        marginRight: 8,
-    },
-    closeButton: {
-        padding: 4,
-    },
-    closeButtonText: {
-        color: 'white',
-        fontSize: 20,
-    },
-    columnWrapper: {
-        justifyContent: 'space-between',
-        marginBottom: 12,
-    },
-    listContent: {
-        paddingBottom: 16,
-    },
-    itemCard: {
-        backgroundColor: '#374151', // gray-700
-        borderRadius: 12,
-        padding: 10,
-        width: '48%',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    imagePlaceholder: {
-        width: 48,
-        height: 48,
-        backgroundColor: '#4B5563', // gray-600
-        borderRadius: 8,
-        marginRight: 8,
-    },
-    itemDetails: {
-        flex: 1,
-    },
-    itemName: {
-        color: 'white',
-        fontSize: 14,
-        fontWeight: '600',
-    },
-    itemDesc: {
-        color: '#D1D5DB', // gray-300
-        fontSize: 10,
-    },
-    itemType: {
-        color: '#9CA3AF', // gray-400
-        fontSize: 10,
-        marginTop: 4,
-    },
-});
