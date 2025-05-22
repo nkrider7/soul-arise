@@ -1,58 +1,47 @@
 import { useState } from 'react';
-import { View, FlatList } from 'react-native';
-import { useAppSelector } from '~/src/store/hook/hook';
+import { View, FlatList , ProgressBarAndroidComponent, Pressable} from 'react-native';
+import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook';
 import QuestList from './QuestList';
 import AddQuestModal from './AddQuestModal';
 import AppButton from '../universal/AppButton';
 import AppText from '../universal/AppText';
-import { BookCheckIcon } from 'lucide-react-native';
+import { BookCheckIcon, BowArrow } from 'lucide-react-native';
 import { lightTheme } from '~/theme/colors';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
+import { resetQuests } from '~/src/store/slices/questSlice';
+import * as Progress from 'react-native-progress';
+import { gainXP } from '~/src/store/slices/playerSlice';
 const QuestMainScreen = () => {
   const { systemQuests, userQuests } = useAppSelector(state => state.quest);
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useAppDispatch();
 
-  // Combine lists with labels
-  const combinedQuests = [
-    ...(userQuests.length > 0
-      ? [{ label: 'Your Custom Quests', data: userQuests }]
-      : []),
-    { label: 'System Quests', data: systemQuests },
-  ];
+  const { xp } = useAppSelector(state => state.player);
+  const xpPercent = (xp / 100) * 100;
 
+  const allQuests = [...userQuests, ...systemQuests]; // pass all to QuestList
 
   return (
     <BottomSheetModalProvider>
       <View className="flex-1 p-4">
-        <View className="flex-row items-center justify-between gap-2  mb-4">
-          <View>
-            <BookCheckIcon size={32} color="white" />
-          </View>
-          <View>
-            <AppText variant='bold' className="text-2xl font-semibold text-white">Quests</AppText>
-            {/* <AppText className="text-gray-400 text-xs">Complete quests to earn rewards and level up!</AppText> */}
-          </View>
+        {/* Header */}
+        <View className="flex-row items-center justify-between gap-2 mb-4">
+          <Pressable onPress={() => dispatch(gainXP(10))}>
+            <BowArrow size={32} color="white" />
+          </Pressable>
 
           <View>
-            <AppButton size='sm' title='Add Quest' style={{ backgroundColor: lightTheme.mypurple }} onPress={() => setModalVisible(true)} />
+            <AppText variant="bold" className="text-2xl text-white">Quests</AppText>
+            <Progress.Bar progress={xpPercent} width={100} />
           </View>
+
+          <AppButton size="sm" variant="purple" title="Add Quest" onPress={() => setModalVisible(true)} />
         </View>
-        <FlatList
-          data={combinedQuests}
-          keyExtractor={(item) => item.label}
-          renderItem={({ item }) => (
-            <View>
-              <AppText variant='bold' className="text-lg font-semibold mb-2 text-white">{item.label}</AppText>
-              <QuestList quests={item.data} />
-            </View>
-          )}
 
-        />
+        {/* Quest List (tabs built inside this component) */}
+        <QuestList quests={allQuests} />
 
-        <View className='absolute bottom-0 right-0 '>
-          <AddQuestModal visible={modalVisible} onClose={() => setModalVisible(false)} />
-        </View>
+        <AddQuestModal visible={modalVisible} onClose={() => setModalVisible(false)} />
       </View>
     </BottomSheetModalProvider>
   );

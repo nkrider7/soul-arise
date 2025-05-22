@@ -4,7 +4,7 @@ import { Button } from '../nativewindui/Button';
 
 interface AppButtonProps extends TouchableOpacityProps {
   title: string;
-  variant?: 'primary' | 'secondary' | 'danger' | 'success'; // Different colors
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'purple'; // Different colors
   size?: 'xs' |  'sm' | 'md' | 'lg'; // Different sizes
 }
 
@@ -13,6 +13,7 @@ const colorVariants = {
   secondary: 'bg-purple-600 border-purple-500 text-purple-100',
   danger: 'bg-red-500 border-red-600 text-red-100',
   success: 'bg-green-500 border-green-600 text-green-100',
+  purple: 'bg-purple-500 border-purple-600 text-purple-100',
 };
 
 const sizeVariants = {

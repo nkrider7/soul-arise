@@ -1,32 +1,61 @@
 import {
+  FlatList,
   Image,
   ImageBackground,
   Pressable,
   Button as RNButton,
+  ScrollView,
   View,
 } from 'react-native';
-import { Container } from '~/components/Container';
 import StatsCard from '~/components/Home/statscard';
 import { useAppDispatch, useAppSelector } from '../../src/store/hook/hook';
 import AppText from '~/components/universal/AppText';
-import { Flame, Icon, UserCircle2, UserRound } from 'lucide-react-native';
+import { Flame, Icon, Plus, UserCircle2, UserRound } from 'lucide-react-native';
 import { RootState } from '~/src/store';
 import PagerView from 'react-native-pager-view';
 import { router } from 'expo-router';
 import AppButton from '~/components/universal/AppButton';
-import { takeChallenge } from '~/src/store/slices/questSlice';
-import { Button } from '~/components/nativewindui/Button';
 import { lightTheme } from '~/theme/colors';
 import { auth } from '~/src/config/firebase';
+import { loadSound, playSound, stopSound, unloadAllSounds } from '~/src/utils/AudioManager';
+import { useEffect, useRef, useState } from 'react';
+import { soundFiles } from '~/src/utils/soundFiles';
+import RotatingSoundButton from '~/components/universal/RotatingSoundButton';
+import Gem from '~/components/nativewindui/Gem';
+import Coin from '~/components/nativewindui/Coin';
+import RewardModalCoins from '~/components/universal/RewardCoin';
+import SplashScreenAnimtion from '~/components/universal/SpashScreen';
+import { HabitCounterCard } from '~/components/Habit/HabitCounterCard';
+import { updateDailyStatus } from '~/src/store/slices/habitCounterSlice';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import CustomCounterModal from '../(pages)/add-counter';
 
 
 export default function Home() {
+  // const hasLoaded = useRef(false);
+  const [visible, setVisible] = useState(false);
+
+  // useEffect(() => {
+  //   if (hasLoaded.current) return;
+  //   hasLoaded.current = true;
+
+  //   const loadAudio = async () => {
+  //     await loadSound('click', soundFiles.click);
+  //     await loadSound('bgm', soundFiles.bgm);
+  //   };
+
+  //   loadAudio();
+
+  //   return () => {
+  //     unloadAllSounds();
+  //   };
+  // }, []);
   const dispatch = useAppDispatch();
   const coins = useAppSelector((state: RootState) => state.currency.coins);
   const gems = useAppSelector((state: RootState) => state.currency.gems);
   const strike = useAppSelector((state: RootState) => state.player.currentStreak);
-  const challenge = useAppSelector((state: RootState) => state.player.acceptedChallenges);
   const player = useAppSelector((state: RootState) => state.player);
+  // console.log(player.acceptedChallenges)
 
   const banners = [
     {
@@ -43,7 +72,8 @@ export default function Home() {
     },
   ];
 
-const handleLogout = async () => {
+
+  const handleLogout = async () => {
     try {
       await auth().signOut();
       console.log('Logged out successfully');
@@ -51,24 +81,33 @@ const handleLogout = async () => {
       console.error('Logout error:', error.message);
     }
   };
+  const habitCounters = useAppSelector(state => state.habitCounter.counters)
+  const [isCounterModalVisible, setCounterModalVisible] = useState(false);
+
+
 
   return (
     <>
-        <View style={{backgroundColor:lightTheme.background}} className='flex-1  items-center'>
-          <View className="flex-row items-center  w-full justify-between px-4 pt-10 pb-3  rounded-t-2xl ">
-            {/* Left Icon */}
-            <Pressable className='flex-row items-center text-xl justify-center gap-x-1'>
-              <Flame size={24} color="yellow" fill={"yellow"} />
-              <AppText variant='bold' className='text-yellow-400'>{strike} days</AppText>
+      <View style={{ backgroundColor: lightTheme.background }} className='flex-1  items-center'>
+      
+        {/* Header  */}
+        <View className="flex-row items-center  w-full justify-between px-4 pt-10 pb-3  rounded-t-2xl ">
+          {/* Left Icon */}
+          <View className='flex items-center flex-row gap-x-1'><Flame size={24} color="yellow" fill={"yellow"} />
+            <AppText variant='bold' className='text-yellow-400'>{strike} days</AppText></View>
+          {/* <RotatingSoundButton /> */}
 
-            </Pressable>
-
-            <Pressable onPress={() => router.push('/AvatarSlection')}>
-              <ImageBackground imageStyle={{ borderRadius: 100, overflow: 'hidden' }} style={{ overflow: "hidden" }} className='rounded-full  ' source={player.character?.backgroundImage} resizeMode="cover" >
-                <Image source={player.character?.image} className="w-12 h-12 rounded-2xl" resizeMode="contain" />
-              </ImageBackground>
-            </Pressable>
-          </View>
+          <Pressable onPress={() => router.push('/(tabs)/profiles')} className='flex flex-row items-center gap-x-4'>
+            <View style={{ backgroundColor: lightTheme.background2 }} className='flex items-center h-8  p-2 px-4 py-0 rounded-2xl flex-row gap-x-1'>
+              <Gem />
+              {/* <Plus color={'white'} size={14} /> */}
+            </View>
+            <ImageBackground imageStyle={{ borderRadius: 100, overflow: 'hidden' }} style={{ overflow: "hidden" }} className='rounded-full  ' source={player.character?.backgroundImage} resizeMode="cover" >
+              <Image source={player.character?.image} className="w-12 h-12 rounded-2xl" resizeMode="contain" />
+            </ImageBackground>
+          </Pressable>
+        </View>
+        <ScrollView className='w-full '>
           <PagerView
             style={{ height: 160, width: '100%' }}
             initialPage={0}
@@ -96,14 +135,53 @@ const handleLogout = async () => {
 
           </PagerView>
           <StatsCard />
-        
+
           {/* <AppButton onPress={() => router.push('/(pages)/Shop')} className='w-11/12 mt-4' title='Shop' /> */}
-          <View className='flex-row'> <AppButton variant='success' size='sm' title='sm' />
+          <View className='flex-row'>
+            <AppButton
+              onPress={() => setVisible(true)}
+              variant="success"
+              size="sm"
+              title="sm"
+            />
             <AppButton variant='secondary' size='sm' onPress={() => router.push('/(onboard)/challenges')} title='challenge' />
-            <AppButton variant='danger' size='sm' title='hard' />
+            <AppButton variant='danger' onPress={() => router.push('/(pages)/speech')} size='sm' title='Voice' />
             <AppButton onPress={handleLogout} variant='primary' size='sm' title='logut' />
+            <View >
+
+            </View>
           </View>
-        </View>
+          <AppButton title="Open Counter Modal" onPress={() => setCounterModalVisible(true)} />
+
+
+
+          <FlatList
+            data={habitCounters}
+            className='flex px-6  '
+            renderItem={({ item }) => (
+              <HabitCounterCard
+
+                title={item.title}
+                stat={item.statLinked}
+                streak={item.streak}
+                maxStreak={item.maxStreak}
+                status={item.statusToday}
+                icon={item.icons as "hand-fist" | "dumbbell" | "brain" | "seedling" | "flame" | undefined}
+                onPress={() => dispatch(updateDailyStatus({ id: item.id, status: 'completed' }))}
+              />
+            )}
+            keyExtractor={item => item.id}
+          />
+          <BottomSheetModalProvider>
+            <CustomCounterModal
+              visible={isCounterModalVisible}
+              onClose={() => setCounterModalVisible(false)}
+            />
+
+          </BottomSheetModalProvider>
+          <RewardModalCoins visible={visible} onClose={() => setVisible(false)} />
+        </ScrollView>
+      </View>
 
     </>
   );

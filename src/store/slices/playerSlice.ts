@@ -6,7 +6,7 @@ import { Difficulty } from '~/src/config/challenge';
 
 interface Character {
   name: string;
-  image: any; // can be local require() or URL
+  image: any; 
   fullCharacterImage: any;
   backgroundImage: any;
   powers: string[];
@@ -74,7 +74,10 @@ const playerSlice = createSlice({
   reducers: {
     selectCharacter: (state, action: PayloadAction<Character>) => {
       state.character = action.payload;
-      state.avatar = action.payload.image; // Sync avatar field separately if needed
+      state.avatar = action.payload.image;
+      state.character.description = action.payload.description;
+      state.character.gender = action.payload.gender;
+      state.character.powers = action.payload.powers;
     },
     gainXP: (state, action: PayloadAction<number>) => {
       state.xp += action.payload;

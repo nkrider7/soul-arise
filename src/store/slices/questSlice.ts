@@ -4,6 +4,8 @@ import uuid from 'react-native-uuid';
 import { Challenges, Difficulty, Gender } from '~/src/config/challenge';
 import { systemQuest } from '~/src/config/systemQuest';
 import { SystemQuest, UserQuest } from '~/src/type';
+import { gainXP, increaseStat } from './playerSlice';
+import { earnCoins, earnGems } from './currencySlice';
 
 /**
  * Quest State Interface
@@ -61,6 +63,8 @@ const questSlice = createSlice({
         quest.progress = quest.goal;
         quest.status = 'completed';
         // TODO: handle reward distribution in middleware or UI after completion
+        gainXP(quest.rewards?.xp || 0)
+        earnCoins(quest.rewards?.coins || 0)
       } else {
         quest.status = 'in_progress';
       }

@@ -41,9 +41,9 @@ export const HabitCounterCard: React.FC<HabitCounterCardProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`rounded-2xl shadow-md p-4 flex-row items-center justify-between ${statusClass}`}
+      className={`rounded-2xl shadow-md p-4  mb-2 flex-row items-center justify-between ${statusClass}`}
     >
-      <View className="flex-row items-center space-x-3">
+      <View className="flex-row items-center gap-x-3">
         <FontAwesome6 name={iconName as any} size={24} color="white" />
         <View>
           <Text className="text-white text-lg font-bold">{title}</Text>

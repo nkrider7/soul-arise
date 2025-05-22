@@ -1,7 +1,7 @@
 import { Link, Redirect, Tabs } from 'expo-router';
-import { BookMarked, CircleUserRound, Flame, Swords } from 'lucide-react-native';
+import { BookMarked, CircleUserRound, Dumbbell, Flame, Swords } from 'lucide-react-native';
 import { lightTheme } from '~/theme/colors';
-import { View, Animated } from 'react-native';
+import { View, Animated, Text } from 'react-native';
 import { useRef, useEffect } from 'react';
 
 // Reusable animated wrapper
@@ -29,8 +29,16 @@ function AnimatedIcon({ children, focused }: { children: ReactNode; focused: boo
 
 export default function TabLayout() {
   const auth = useAppSelector((state: RootState) => state.auth);
+  if(auth.isAuthenticated)
 
-  console.log(auth)
+  if(!auth.isAuthenticated){
+  return(
+    <View>
+      <Text>Wait</Text>
+    </View>
+  )
+  }
+
 
   return (
     <Tabs
@@ -72,14 +80,14 @@ export default function TabLayout() {
             <AnimatedIcon focused={focused}>
               {focused ? (
                 <View style={{ width: 24, height: 24, position: 'relative' }}>
-                  <BookMarked
+                  <Dumbbell
                     color={lightTheme.secondary}
                     style={{ position: 'absolute', left: 1.5, top: 1.5 }}
                   />
-                  <BookMarked color={color}  style={{ position: 'absolute', left: 0, top: 0 }} />
+                  <Dumbbell color={color} fill={'white'}  style={{ position: 'absolute', left: 0, top: 0 }} />
                 </View>
               ) : (
-                <BookMarked color={color} />
+                <Dumbbell color={color} />
               )}
             </AnimatedIcon>
           ),

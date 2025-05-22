@@ -8,6 +8,9 @@ import { spendGems } from '~/src/store/slices/currencySlice';
 import { addItem } from '~/src/store/slices/inventorySlice';
 import { lightTheme } from '~/theme/colors'
 import uuid from 'react-native-uuid';
+import { GemIcon } from '~/components/nativewindui/Gem';
+import AppButton from '~/components/universal/AppButton';
+import { CoinIcon } from '~/components/nativewindui/Coin';
 
 function Shop() {
     const dispatch = useAppDispatch()
@@ -39,18 +42,22 @@ function Shop() {
     };
     return (
         <View style={{ backgroundColor: lightTheme.background2 }} className=' flex-1 px-4'>
-            <View className='flex-row items-center  w-full justify-between px-4 pt-6 pb-3 rounded-t-2xl '>
+            <View className='flex-row items-start w-full justify-between pl-2 pt-6 pb-3 rounded-t-2xl '>
+
                 <View>
-                    <Text className="text-white text-2xl font-bold mt-4">Shop</Text>
-                    <Text className="text-gray-300 text-sm mt-2">Available Gems: {gems}</Text>
+                    <AppText variant='bold' className="text-white text-2xl mt-4">Shop</AppText>
+                    <View className="flex flex-row items-center gap-x-1 mt-1"><AppText variant='bold' className='text-white text-xs'>Gems: {gems} </AppText><GemIcon /> </View>
+                    <View className="flex flex-row items-center "><AppText variant='bold' className='text-white text-xs'>Coins: {gems} </AppText><CoinIcon /> </View>
                 </View>
                 <View className="flex-row justify-between items-center mt-4">
-                    <TouchableOpacity
+                    <AppButton
+                        size='sm'
+                        variant='purple'
+                        title='Inventory'
                         onPress={() => setInventoryOpen(true)}
-                        className="bg-blue-600 px-4 py-2 rounded-md"
-                    >
-                        <Text className="text-white font-bold text-sm">Inventory</Text>
-                    </TouchableOpacity>
+                        className=""
+                    />
+                        
                 </View>
             </View>
             <FlatList
@@ -70,7 +77,7 @@ function Shop() {
                             <Text className="text-white text-lg font-semibold">{item.name}</Text>
                             <Text className="text-gray-300 text-sm">{item.description}</Text>
                             <Text className="text-gray-400 text-xs">Type: {item.type}</Text>
-                            <Text className="text-gray-400 text-xs mt-1">{item.priceGems} Gems</Text>
+                            <Text className="text-gray-400 text-xs mt-1">{item.priceGems} Gems <GemIcon /></Text>
                         </View>
 
                         {/* Buttons */}

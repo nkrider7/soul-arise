@@ -16,9 +16,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { useFonts } from 'expo-font';
 import { AuthProvider } from '~/src/context/AuthProvider';
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import SplashScreenAnimtion from '~/components/universal/SpashScreen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useInitialAndroidBarSync();
@@ -31,7 +34,7 @@ export default function RootLayout() {
   const { colorScheme, isDarkColorScheme } = useColorScheme();
 
   if (!fontsLoaded) {
-    return <Text  className='text-black'>Font Loading</Text>; // Or render a splash screen here
+    return <SplashScreenAnimtion />; // Or render a splash screen here
   }
   return (
     <>
@@ -39,7 +42,6 @@ export default function RootLayout() {
         key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
         style={isDarkColorScheme ? 'light' : 'dark'}
       />
-
       <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
          <AuthProvider>
@@ -54,6 +56,10 @@ export default function RootLayout() {
                   animation: 'fade_from_bottom', // for android
                 }} />
                 <Stack.Screen name="(pages)/add-counter" options={{
+                  headerShown: false,
+                  animation: 'fade_from_bottom', // for android
+                }} />
+                <Stack.Screen name="(pages)/Shop" options={{
                   headerShown: false,
                   animation: 'fade_from_bottom', // for android
                 }} />
@@ -77,8 +83,6 @@ export default function RootLayout() {
         </AuthProvider>
         </Provider>
       </GestureHandlerRootView>
-
-      {/* </ExampleProvider> */}
     </>
   );
 }

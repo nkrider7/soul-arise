@@ -7,6 +7,7 @@ import currencyReducer from './slices/currencySlice'
 import habitCounterReducer from './slices/habitCounterSlice'; 
 import inventoryReducer from './slices/inventorySlice';
 import authReducer from './slices/authSlice';
+import  settingsReducer from './slices/settingsSlice';
 
 const persistedHabitCounterReducer = persistReducer({ key: 'habitCounter', storage: AsyncStorage },habitCounterReducer);
 const inventoryPersistConfig = persistReducer({ key: 'inventory', storage: AsyncStorage },inventoryReducer);
@@ -14,6 +15,7 @@ const persistedQuestReducer = persistReducer({ key: 'quest', storage: AsyncStora
 const persistedCurrencyReducer = persistReducer({ key: 'currency', storage: AsyncStorage }, currencyReducer);
 const persistedPlayerReducer = persistReducer({key: 'player',storage: AsyncStorage,}, playerReducer);
 const persistedAuthReducer = persistReducer({ key: 'auth', storage: AsyncStorage }, authReducer);
+const persistSettings = persistReducer({key:'settings', storage:AsyncStorage }, settingsReducer)
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +25,7 @@ export const store = configureStore({
     quest: persistedQuestReducer,
     currency: persistedCurrencyReducer,
     habitCounter: persistedHabitCounterReducer,
+    settings: persistSettings,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

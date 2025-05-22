@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook';
 import { sellItem } from '~/src/store/slices/inventorySlice';
 import AppText from '../universal/AppText';
 import { CircleDollarSign, Gem } from 'lucide-react-native';
+import { GemIcon } from '../nativewindui/Gem';
+import { CoinIcon } from '../nativewindui/Coin';
 
 type InventoryModalProps = {
     visible: boolean;
@@ -40,11 +42,10 @@ export default function InventoryModal({ visible, onClose }: InventoryModalProps
         <View className="flex-1 p-4">
           {/* Header */}
           <View className="flex-row justify-between items-center mb-4">
-            <AppText variant='bold' className="text-white text-xl font-bold">Inventory</AppText>
-            <View className="flex-row items-center">
-             
-              <View  className="text-white flex-row items-center justify-center text-sm"><Gem fill={"red"} color={"purple"} /> <AppText className='text-purple-700'>{gems}</AppText></View>
-              <View  className="text-white flex-row items-center justify-center text-sm ml-2"><CircleDollarSign color={'yellow'} /> <Text>{gems}</Text></View>
+            <AppText variant='bold' className="text-white text-xl ">Inventory</AppText>
+            <View className="flex-row items-center">            
+              <View  className="text-white flex-row items-center justify-center gap-x-1 "><GemIcon /><AppText variant='bold' className='text-white'>{gems}</AppText></View>
+              <View  className="text-white flex-row items-center justify-center text-sm ml-2"><CoinIcon /> <AppText variant='bold' className='text-white'>{coins}</AppText></View>
             </View>
           </View>
 
