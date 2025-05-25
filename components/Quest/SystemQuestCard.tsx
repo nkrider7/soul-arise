@@ -13,12 +13,11 @@ import AppText from '../universal/AppText';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { getLucideIcon } from './IconsHelp';
 import { useAppDispatch } from '~/src/store/hook/hook';
-import { deleteUserQuest, updateProgress } from '~/src/store/slices/questSlice';
+import {  updateProgress } from '~/src/store/slices/questSlice';
 import AppButton from '../universal/AppButton';
 import { lightTheme } from '~/theme/colors';
 import { EllipsisVertical } from 'lucide-react-native';
-import Animated, { Layout, FadeIn, FadeOut, PinwheelIn, PinwheelOut, SlideInUp, StretchOutY, StretchOutX, ZoomOutUp } from 'react-native-reanimated';
-import { ANDROID_RIPPLE } from '../universal/RippleWrapper';
+import Animated, { FadeIn, FadeOut, PinwheelIn, PinwheelOut} from 'react-native-reanimated';
 
 interface Props {
   quest: SystemQuest;
@@ -66,7 +65,7 @@ const SwipeableSystemQuestCard = ({ quest }: Props) => {
         <Pressable onPress={toggleModal}
         >
           <Animated.View
-            layout={Layout.springify()}
+            // layout={Layout.springify()}
             entering={FadeIn}
             exiting={FadeOut}
             style={{ backgroundColor: lightTheme.background2 }}
@@ -120,29 +119,42 @@ const SwipeableSystemQuestCard = ({ quest }: Props) => {
         </Pressable>
       </Swipeable>
 
-      <Modal
-        visible={isModalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={toggleModal}
-      >
-        <TouchableWithoutFeedback onPress={toggleModal}>
-          <View className="flex-1 bg-black/50 justify-end items-center">
-            <TouchableWithoutFeedback>
-              <Animated.View
-                entering={PinwheelIn}
-                exiting={ZoomOutUp}
-                layout={Layout.springify()}
-                className="w-[90%] bg-neutral-900 rounded-2xl p-5"
-              >
-                <AppText variant="bold" className="text-xl text-white mb-2">{quest.title}</AppText>
-                <AppText variant="semibold" className="text-white mb-4">{quest.description || 'No description'}</AppText>
-                <AppText variant="bold" className="text-lime-300 mb-1">Progress: {quest.progress}/{quest.goal}</AppText>
+    <Modal
+  visible={isModalVisible}
+  transparent
+  animationType="fade"
+  onRequestClose={toggleModal}
+>
+  {/* Outer layer that closes the modal */}
+  <TouchableWithoutFeedback onPress={toggleModal}>
+    <View className={`flex-1  justify-end items-center  ${quest.status === 'completed' ? 'bg-green-600/50 j' : 'bg-purple-800/50 j'}`}>
+      {/* Inner layer that stops propagation */}
+      <View className="w-[90%] mb-8">
+        {/* This View stops propagation of outer onPress */}
+        <Pressable className="bg-neutral-900 rounded-2xl p-5 mb-10" onPress={() => {}}>
+          <Animated.View entering={PinwheelIn} exiting={PinwheelOut}>
+            {/* Modal content here */}
+            <View className='flex justify-center items-center'>
+              <View className='p-4 rounded-full bg-[#4f46e5]/20 mb-2'>
+                {getLucideIcon(null)}
+              </View>
+              <AppText variant="bold" className="text-xl text-white mb-2">{quest.title}</AppText>
+            </View>
+
+            <AppText variant="semibold" className="text-white mb-4 text-center">
+              {quest.description || 'No description'}
+            </AppText>
+            <AppText variant="bold" className="text-lime-300 text-center mb-1">
+              Progress: {quest.progress}/{quest.goal}
+            </AppText>
+
+            {quest.status !== 'completed' && (
+              <>
                 <AppButton
                   title="+1 Progress"
                   onPress={() => {
                     dispatch(updateProgress({ id: quest.id, amount: 1 }));
-                    toggleModal();
+                    // toggleModal();
                   }}
                   size="md"
                 />
@@ -156,18 +168,22 @@ const SwipeableSystemQuestCard = ({ quest }: Props) => {
                   variant="primary"
                   className="mt-2"
                 />
-                <AppButton
-                  title="Close"
-                  onPress={toggleModal}
-                  size="sm"
-                  variant="secondary"
-                  className="mt-4"
-                />
-              </Animated.View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+              </>
+            )}
+            <AppButton
+              title="Close"
+              onPress={toggleModal}
+              size="sm"
+              variant="secondary"
+              className="mt-4"
+            />
+          </Animated.View>
+        </Pressable>
+      </View>
+    </View>
+  </TouchableWithoutFeedback>
+</Modal>
+
     </>
   );
 };

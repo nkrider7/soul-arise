@@ -24,7 +24,24 @@ const QuestList = ({ quests }: Props) => {
   return (
     <View style={{ flex: 1 }}>
       {/* Tabs */}
-      <View className="flex-row justify-between mb-3 px-10">
+
+
+      {/* Quest Cards */}
+      <FlatList
+        data={filteredQuests}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) =>
+          isUserQuest(item) ? (
+            <>
+              <UserQuestCard quest={item} />
+            </>
+          ) : (
+            <SystemQuestCard quest={item} />
+          )
+        }
+
+      />
+      <View className="flex-row justify-between mt-3 px-10">
         <Pressable
           onPress={() => setActiveTab('system')}
           className="flex-row items-center gap-x-1 border-b-2 pb-2"
@@ -47,19 +64,6 @@ const QuestList = ({ quests }: Props) => {
           </AppText>
         </Pressable>
       </View>
-
-      {/* Quest Cards */}
-      <FlatList
-        data={filteredQuests}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) =>
-          isUserQuest(item) ? (
-            <UserQuestCard quest={item} />
-          ) : (
-            <SystemQuestCard quest={item} />
-          )
-        }
-      />
     </View>
   );
 };

@@ -50,7 +50,7 @@ export default function RootLayout() {
           <ActionSheetProvider>
             <NavThemeProvider value={NAV_THEME[colorScheme]}>
               <Stack screenOptions={SCREEN_OPTIONS}>
-                <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
+                <Stack.Screen name="(drawer)" options={TABS_OPTIONS} />
                 <Stack.Screen name="(pages)/settings" options={{
                   headerShown: false,
                   animation: 'fade_from_bottom', // for android

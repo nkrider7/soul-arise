@@ -92,10 +92,6 @@ export default function Profiles() {
                     </View>
                 </View>
             </View>
-             <RippleWrapper >
-                    <View className="p-2 rounded-full h-40 w-full bg-white/10"/>
-
-                </RippleWrapper>
 
         </Container>
 

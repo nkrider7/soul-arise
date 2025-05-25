@@ -8,6 +8,7 @@ import { useRef, useEffect } from 'react';
 import { ReactNode } from 'react';
 import { useAppSelector } from '~/src/store/hook/hook';
 import { RootState } from '~/src/store';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function AnimatedIcon({ children, focused }: { children: ReactNode; focused: boolean }) {
   const scale = useRef(new Animated.Value(1)).current;
@@ -52,7 +53,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+       name="index"
         options={{
           title: '',
           headerShown: false,
@@ -80,14 +81,14 @@ export default function TabLayout() {
             <AnimatedIcon focused={focused}>
               {focused ? (
                 <View style={{ width: 24, height: 24, position: 'relative' }}>
-                  <Dumbbell
+                 <MaterialCommunityIcons name="shield-sword" size={24}
                     color={lightTheme.secondary}
                     style={{ position: 'absolute', left: 1.5, top: 1.5 }}
                   />
-                  <Dumbbell color={color} fill={'white'}  style={{ position: 'absolute', left: 0, top: 0 }} />
+                  <MaterialCommunityIcons name="shield-sword" size={24} color={color} fill={'white'}  style={{ position: 'absolute', left: 0, top: 0 }} />
                 </View>
-              ) : (
-                <Dumbbell color={color} />
+              ) : ( 
+                <MaterialCommunityIcons name="shield-sword" size={24} color={color} />
               )}
             </AnimatedIcon>
           ),

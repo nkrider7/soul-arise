@@ -1,5 +1,3 @@
-// screens/SettingsScreen.tsx
-
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
 import {
@@ -19,23 +17,34 @@ import {
 } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native'; // if needed for navigation
 import SettingsItem from '~/components/SettingsItem';
+import AppButton from '~/components/universal/AppButton';
+import { auth } from '~/src/config/firebase';
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
+    const handleLogout = async () => {
+    try {
+      await auth().signOut();
+      console.log('Logged out successfully');
+    } catch (error: any) {
+      console.error('Logout error:', error.message);
+    }
+    };
+  
 
   return (
     <View className="flex-1 bg-black">
       {/* Header */}
-      <View className="flex-row items-center justify-between px-4 mt-8 py-6">
+      <View className="flex-row items-center justify-between px-4 mt-8 py-4">
         <TouchableOpacity className='flex-row items-center gap-x-2' onPress={() => navigation.goBack()}>
-          <ChevronLeft  size={24}  />
+          <ChevronLeft  size={20} color={'white'}  />
           <Text className="text-white text-2xl font-bold">Settings</Text>
         </TouchableOpacity>
       </View>
 
       {/* Settings List */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="border-t border-gray-700">
+        <View className="border-t pt-3 border-gray-700">
           <SettingsItem
             title="Notifications"
             icon={Bell}
@@ -100,6 +109,10 @@ export default function SettingsScreen() {
             onPress={() => console.log('About')}
           />
         </View>
+
+     <View className='px-10 mt-8'> 
+         <AppButton onPress={handleLogout} variant='danger' size='sm' title='Logout' />
+     </View>
       </ScrollView>
     </View>
   );
