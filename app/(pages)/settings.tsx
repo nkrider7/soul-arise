@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native'; // if needed for navig
 import SettingsItem from '~/components/SettingsItem';
 import AppButton from '~/components/universal/AppButton';
 import { auth } from '~/src/config/firebase';
+import { router } from 'expo-router';
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
@@ -106,7 +107,7 @@ export default function SettingsScreen() {
           <SettingsItem
             title="About"
             icon={Info}
-            onPress={() => console.log('About')}
+            onPress={() => router.push('/(pages)/about')}
           />
         </View>
 

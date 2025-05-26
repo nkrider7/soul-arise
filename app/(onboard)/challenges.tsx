@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, TextInput, Alert, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, TextInput, Alert, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Challenges } from '~/src/config/challenge';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ function ChallengesScreen() {
           difficulty: selectedDifficulty,
           durationDays: selectedDuration,
         }));
-        router.navigate('/(tabs)');
+        router.navigate('/(drawer)/(tabs)');
       }
     }
   };
@@ -71,22 +71,58 @@ function ChallengesScreen() {
 
   const selectedChallenge = Challenges.find(c => c.difficulty === selectedDifficulty);
 
+  const challenges = [
+    {
+      title: 'Easy',
+      description: 'Easy challenges are for beginners.',
+      key: 'easy',
+      background: require('../../assets/banner/main.jpg'),
+      color: '#84cc16',
+    },
+    {
+      title: 'Normal',
+      description: 'Easy challenges are for beginners.',
+      key: 'normal',
+      background: require('../../assets/banner/main.jpg'),
+      color: '#5C1486',
+    },
+    {
+      title: 'Hard',
+      description: 'Easy challenges are for beginners.',
+      key: 'hard',
+      background: require('../../assets/banner/main.jpg'),
+      color: '#991b1b',
+    },
+    {
+      title: 'Custom',
+      description: 'Easy challenges are for beginners.',
+      key: 'custom',
+      background: require('../../assets/banner/main.jpg'),
+      color: 'blue',
+    }
+  ]
+
   return (
     <View style={{ backgroundColor: lightTheme.background }} className="flex-1 px-10 pt-12">
 
       {step === 0 && (
         <>
           <AppText variant='bold' className="text-2xl text-white text-center mb-6">Now Challenges Select</AppText>
-          {['easy', 'normal', 'hard', 'custom'].map(diff => (
-            <TouchableOpacity
-              key={diff}
-              style={{ backgroundColor: lightTheme.background2 }}
-              className={`w-full py-12 rounded-xl mb-4 items-center border-4 ${selectedDifficulty === diff ? 'border-blue-600' : 'border-blue-100'
-                }`}
-              onPress={() => setSelectedDifficulty(diff as any)}
-            >
-              <AppText variant='bold' className="text-2xl capitalize text-white">{diff}</AppText>
-            </TouchableOpacity>
+          {challenges.map((item, index) => (
+            <ImageBackground key={index} source={item.background} className={`rounded-xl mb-4  bg-slate-950  items-center  ${selectedDifficulty === item.key ? 'border-blue-600' : 'border-blue-100'} `} imageStyle={{ borderRadius: 20 }} imageClassName='' resizeMode="stretch">
+              <TouchableOpacity
+                style={{
+                  backgroundColor: `${item.color}A6`,
+                }}
+                className={`w-full py-8 rounded-xl  items-center border-4 ${selectedDifficulty === item.key ? 'border-blue-600' : 'border-blue-100'
+                  }`}
+                onPress={() => setSelectedDifficulty(item.key as any)}
+              >
+                <AppText variant='bold' className={` text-3xl capitalize `} style={{ color: item.color }}>{item.key}</AppText>
+                <AppText variant='semibold' className="text-sm capitalize text-white">{item.description}</AppText>
+
+              </TouchableOpacity>
+            </ImageBackground>
           ))}
 
           <AppButton title='Next' onPress={handleGoNext} className='bg-red-500 border-red-400' />

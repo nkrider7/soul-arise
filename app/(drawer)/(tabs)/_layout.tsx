@@ -15,7 +15,7 @@ function AnimatedIcon({ children, focused }: { children: ReactNode; focused: boo
 
   useEffect(() => {
     Animated.spring(scale, {
-      toValue: focused ? 1.1 : 1,
+      toValue: focused ? 1 : 0.8,
       useNativeDriver: true,
       friction: 4,
     }).start();

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ImageSourcePropType, ImageBackground } from 'react-native';
 import AppText from '../universal/AppText';
+import { lightTheme } from '~/theme/colors';
 
 interface Props {
   name: string;
@@ -12,7 +13,7 @@ interface Props {
 
 const HunterCard = ({ name, image, rank, power, description }: Props) => {
   return (
-    <ImageBackground  source={require('../../assets/frame.png')} className="  rounded-xl p-4 border  bg-purple-950 shadow-lg">
+    <ImageBackground   style={{backgroundColor:lightTheme.background2}} className="  rounded-xl p-4  shadow-lg">
       {/* Header */}
       <View className="flex-row justify-between items-center mb-2">
         <Text className="text-white font-bold text-xs">Official Hunter's License</Text>

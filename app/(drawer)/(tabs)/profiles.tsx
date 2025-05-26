@@ -1,37 +1,31 @@
 import { View, Text, Pressable, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import { Container } from '~/components/Container'
-import {  Cog, Flame, Mars, Venus } from 'lucide-react-native'
+import { Cog, Flame, Mars, Venus } from 'lucide-react-native'
 import AppText from '~/components/universal/AppText'
 import { router } from 'expo-router'
 import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook'
 import { earnGems } from '~/src/store/slices/currencySlice'
-
 import { RootState } from '~/src/store'
 import { lightTheme } from '~/theme/colors'
 
 import { statIcons } from '~/src/constant/Icons'
-import RippleWrapper from '~/components/universal/RippleWrapper'
 
 export default function Profiles() {
 
     const dispatch = useAppDispatch()
-
     const player = useAppSelector((state: RootState) => state.player);
     const strike = useAppSelector((state: RootState) => state.player.currentStreak);
-
     const { stats, xp, level, rank } = useAppSelector(state => state.player);
     const gems = useAppSelector(state => state.currency.gems);
     const inventory = useAppSelector(state => state.inventory.items);
     const statEntries = Object.entries(stats);
-    
-
 
     return (
         <Container>
             {/* Header */}
             <View className="flex-row items-center  w-full justify-between px-4 pt-6 pb-3 rounded-t-2xl ">
                 {/* Left Icon */}
-               
+
                 <Pressable onPress={() => dispatch(earnGems(100))} className='flex flex-row items-center gap-x-1'>
                     <Flame size={24} color="yellow" fill={"yellow"} />
                     <AppText variant='bold' className='text-yellow-400'>{strike} days</AppText>
@@ -47,7 +41,7 @@ export default function Profiles() {
 
                 <View className="items-starta justify-start px-6">
                     <View className='flex-row justify-start gap-x-4 w-full'>
-                        <Pressable  onPress={() => router.push('/AvatarSlection')}>
+                        <Pressable onPress={() => router.push('/AvatarSlection')}>
                             <ImageBackground
                                 imageStyle={{ borderRadius: 100, overflow: 'hidden' }}
                                 style={{ overflow: "hidden" }}
@@ -61,7 +55,7 @@ export default function Profiles() {
                         <View>
                             <AppText variant='bold' className="text-white text-3xl mt-2 ">{player.character?.name}</AppText>
                             <View className=" flex-row items-center gap-x-2">{player.character?.gender === 'female' ? <Venus color="pink" /> : <Mars color="#5865F2" />}<AppText variant='bold' className='text-white text-lg '>{player.character?.gender}</AppText></View>
-                            <AppText variant='semibold' className="text-teal-500 text-xs mt-1">
+                            <AppText variant='semibold' className="text-lime-500 text-xs mt-1">
                                 Powers: {player.character?.powers && player.character.powers.length > 0 ? player.character.powers.join(', ') : 'Unknown'}
                             </AppText>
 
@@ -90,6 +84,11 @@ export default function Profiles() {
                             </View>
                         ))}
                     </View>
+
+                    <AppText variant="bold" className="text-white text-3xl">
+                        Inventory
+                    </AppText>
+
                 </View>
             </View>
 

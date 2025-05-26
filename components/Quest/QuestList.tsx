@@ -6,6 +6,7 @@ import SystemQuestCard from './SystemQuestCard';
 import AppText from '../universal/AppText';
 import { lightTheme } from '~/theme/colors';
 import { Eye, Laptop, ScanEye, UserRound } from 'lucide-react-native';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 interface Props {
   quests: (UserQuest | SystemQuest)[];
@@ -27,19 +28,18 @@ const QuestList = ({ quests }: Props) => {
 
 
       {/* Quest Cards */}
-      <FlatList
+       <Animated.FlatList
         data={filteredQuests}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) =>
-          isUserQuest(item) ? (
-            <>
+        renderItem={({ item, index }) => (
+          <Animated.View entering={FadeInUp.delay(index * 100)}>
+            {isUserQuest(item) ? (
               <UserQuestCard quest={item} />
-            </>
-          ) : (
-            <SystemQuestCard quest={item} />
-          )
-        }
-
+            ) : (
+              <SystemQuestCard quest={item} />
+            )}
+          </Animated.View>
+        )}
       />
       <View className="flex-row justify-between mt-3 px-10">
         <Pressable
