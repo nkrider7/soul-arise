@@ -20,12 +20,18 @@ import SettingsItem from '~/components/SettingsItem';
 import AppButton from '~/components/universal/AppButton';
 import { auth } from '~/src/config/firebase';
 import { router } from 'expo-router';
+import { useAppDispatch } from '~/src/store/hook/hook';
+import { resetQuests } from '~/src/store/slices/questSlice';
+import { persistor } from '../../src/store';
 
 export default function SettingsScreen() {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
     const handleLogout = async () => {
     try {
       await auth().signOut();
+      dispatch(resetQuests());
+      persistor.purge();
       console.log('Logged out successfully');
     } catch (error: any) {
       console.error('Logout error:', error.message);

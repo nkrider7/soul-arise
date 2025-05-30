@@ -24,10 +24,10 @@ import { useEffect, useState } from 'react';
 export default function CustomDrawer(props: any) {
   const [isReady, setIsReady] = useState(false);
 
-useEffect(() => {
-  const timer = setTimeout(() => setIsReady(true), 100);
-  return () => clearTimeout(timer);
-}, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsReady(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -69,8 +69,6 @@ useEffect(() => {
 
               </View>
               {/* <AppText svariant='bold' className=" text-white text-3xl">{value}</AppText>r */}
-
-             
             </View>
           ))}
         </View>

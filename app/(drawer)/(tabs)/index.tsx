@@ -66,11 +66,6 @@ export default function Home() {
 		},
 	];
 
-
-
-
-
-
 	return (
 		<>
 			<View style={{ backgroundColor: lightTheme.background }} className='flex-1  items-center'>
@@ -151,8 +146,9 @@ export default function Home() {
 							size="sm"
 							title="sm"
 						/>
-						<AppButton variant='secondary' size='sm' onPress={() => router.push('/(onboard)/challenges')} title='challenge' />
-						<AppButton variant='secondary' size='sm' onPress={() => router.push('/(onboard)/challenges')} title='Open' />
+						<AppButton variant='secondary' size='sm' onPress={() => router.push('/(pages)/quest/main')} title='challenge' />
+						{/* <AppButton variant='secondary' size='sm' onPress={() => router.push('/(onboard)/challenges')} title='Open' /> */}
+						{/* <AppButton variant='primary' size='sm' onPress={() => router.push('/(pages)/leaderboard')} title='Opena' /> */}
 					</AnimatedCornerIconModal>
 					{/* 
 					<Modal visible={visible} transparent animationType="fade" onRequestClose={() => setVisible(false)}  >

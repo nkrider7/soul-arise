@@ -1,5 +1,5 @@
 import { Link, Redirect, Tabs } from 'expo-router';
-import { BookMarked, CircleUserRound, Dumbbell, Flame, Swords } from 'lucide-react-native';
+import { BookMarked, CircleUserRound, Compass, Dumbbell, Fan, Flame, FlameKindling, Swords } from 'lucide-react-native';
 import { lightTheme } from '~/theme/colors';
 import { View, Animated, Text } from 'react-native';
 import { useRef, useEffect } from 'react';
@@ -9,9 +9,19 @@ import { ReactNode } from 'react';
 import { useAppSelector } from '~/src/store/hook/hook';
 import { RootState } from '~/src/store';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { RotatingIcon } from '~/components/animated/rot';
 
-function AnimatedIcon({ children, focused }: { children: ReactNode; focused: boolean }) {
+function AnimatedIcon({
+  children,
+  focused,
+  rotate = false,
+}: {
+  children: ReactNode;
+  focused: boolean;
+  rotate?: boolean;
+}) {
   const scale = useRef(new Animated.Value(1)).current;
+  const spinValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.spring(scale, {
@@ -19,16 +29,35 @@ function AnimatedIcon({ children, focused }: { children: ReactNode; focused: boo
       useNativeDriver: true,
       friction: 4,
     }).start();
+
+    if (focused && rotate) {
+      spinValue.setValue(0);
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    }
   }, [focused]);
 
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
+    <Animated.View
+      style={{
+        transform: rotate ? [{ rotate: spin }, { scale }] : [{ scale }],
+      }}
+    >
       {children}
     </Animated.View>
   );
 }
 
-export default function TabLayout() {
+
+function RootLayout() {
   const auth = useAppSelector((state: RootState) => state.auth);
   if(auth.isAuthenticated)
 
@@ -61,41 +90,53 @@ export default function TabLayout() {
             <AnimatedIcon focused={focused}>
               {focused ? (
                 <View style={{ width: 24, height: 24, position: 'relative' }}>
-                  <Flame color="red" style={{ position: 'absolute', left: -1, top: -1 }} />
+                  <Flame color={lightTheme.mypurple} style={{ position: 'absolute', left: -1, top: -1 }} />
                   <Flame color="white" fill={'white'} style={{ position: 'absolute', left: 1, top: 1 }} />
                   <Flame color={color} style={{ position: 'absolute', left: 0, top: 0 }} />
                 </View>
               ) : (
-                <Flame color={color} />
+                <FlameKindling color={color} />
               )}
             </AnimatedIcon>
           ),
         }}
       />
       <Tabs.Screen
-        name="quest"
-        options={{
-          title: '',
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <AnimatedIcon focused={focused}>
-              {focused ? (
-                <View style={{ width: 24, height: 24, position: 'relative' }}>
-                 <MaterialCommunityIcons name="shield-sword" size={24}
-                    color={lightTheme.secondary}
-                    style={{ position: 'absolute', left: 1.5, top: 1.5 }}
-                  />
-                  <MaterialCommunityIcons name="shield-sword" size={24} color={color} fill={'white'}  style={{ position: 'absolute', left: 0, top: 0 }} />
-                </View>
-              ) : ( 
-                <MaterialCommunityIcons name="shield-sword" size={24} color={color} />
-              )}
-            </AnimatedIcon>
-          ),
-        }}
-      />
+  name="explore"
+  options={{
+    title: '',
+    headerShown: false,
+    tabBarIcon: ({ color, focused }) => (
+      <AnimatedIcon focused={focused} rotate={focused}>
+        {focused ? (
+          <View style={{ width: 24, height: 24, position: 'relative' }}>
+            <Compass
+              size={24}
+              color={lightTheme.mypurple}
+              style={{
+                position: 'absolute',
+                left: 1.5,
+                top: 1.5,
+                transform: [{ rotate: '-45deg' }],
+              }}
+            />
+            <Compass
+              size={24}
+              color={color}
+              
+              style={{ position: 'absolute', left: 0, top: 0 }}
+            />
+          </View>
+        ) : (
+        <RotatingIcon />
+        )}
+      </AnimatedIcon>
+    ),
+  }}
+/>
+
       <Tabs.Screen
-        name="hunt"
+        name="soulsync"
         options={{
           title: '',
           headerShown: false,
@@ -104,7 +145,7 @@ export default function TabLayout() {
               {focused ? (
                 <View style={{ width: 24, height: 24, position: 'relative' }}>
                   <Swords
-                    color={lightTheme.secondary}
+                    color={lightTheme.mypurple}
                     style={{ position: 'absolute', left: 1.5, top: 1.5 }}
                   />
                   <Swords color={color} fill={color} style={{ position: 'absolute', left: 0, top: 0 }} />
@@ -126,7 +167,7 @@ export default function TabLayout() {
               {focused ? (
                 <View style={{ width: 24, height: 24, position: 'relative' }}>
                   <CircleUserRound
-                    color={lightTheme.secondary}
+                   color={lightTheme.mypurple}
                     style={{ position: 'absolute', left: 1.5, top: 1.5 }}
                   />
                   <CircleUserRound color={color} style={{ position: 'absolute', left: 0, top: 0 }} />
@@ -141,3 +182,5 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+export default RootLayout;

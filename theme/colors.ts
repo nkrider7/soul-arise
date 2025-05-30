@@ -81,3 +81,6 @@ export const lightTheme = {
   mypurple: "#5E0FD2",
  
 }
+
+
+// #0A0815    #180922      this color for pink 

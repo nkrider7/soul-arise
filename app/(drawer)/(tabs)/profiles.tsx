@@ -5,16 +5,20 @@ import AppText from '~/components/universal/AppText'
 import { router } from 'expo-router'
 import { useAppDispatch, useAppSelector } from '~/src/store/hook/hook'
 import { earnGems } from '~/src/store/slices/currencySlice'
+// import { LinearGradient } from 'expo-linear-gradient'
 import { RootState } from '~/src/store'
 import { lightTheme } from '~/theme/colors'
 
 import { statIcons } from '~/src/constant/Icons'
+import RippleWrapper from '~/components/universal/RippleWrapper'
 
 export default function Profiles() {
 
     const dispatch = useAppDispatch()
+
     const player = useAppSelector((state: RootState) => state.player);
     const strike = useAppSelector((state: RootState) => state.player.currentStreak);
+
     const { stats, xp, level, rank } = useAppSelector(state => state.player);
     const gems = useAppSelector(state => state.currency.gems);
     const inventory = useAppSelector(state => state.inventory.items);
@@ -41,11 +45,11 @@ export default function Profiles() {
 
                 <View className="items-starta justify-start px-6">
                     <View className='flex-row justify-start gap-x-4 w-full'>
-                        <Pressable onPress={() => router.push('/AvatarSlection')}>
+                        <Pressable onPress={() => router.push('/(pages)/quest/main')}>
                             <ImageBackground
                                 imageStyle={{ borderRadius: 100, overflow: 'hidden' }}
                                 style={{ overflow: "hidden" }}
-                                className='rounded-full'
+                                className='rounded-full border-purple-600 border-2'
                                 source={player.character?.backgroundImage}
                                 resizeMode="cover"
                             >
@@ -84,11 +88,7 @@ export default function Profiles() {
                             </View>
                         ))}
                     </View>
-
-                    <AppText variant="bold" className="text-white text-3xl">
-                        Inventory
-                    </AppText>
-
+                  
                 </View>
             </View>
 

@@ -63,6 +63,10 @@ export default function RootLayout() {
                   headerShown: false,
                   animation: 'fade_from_bottom', // for android
                 }} />
+                <Stack.Screen name="(pages)/quest/main" options={{
+                  headerShown: false,
+                  animation: 'fade_from_bottom', // for android
+                }} />
                 <Stack.Screen name="(onboard)/AvatarSlection" options={{
                   headerShown: false,
                   animation: 'fade_from_bottom', // for android

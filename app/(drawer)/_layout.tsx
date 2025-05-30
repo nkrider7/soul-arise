@@ -5,11 +5,13 @@ import CustomDrawer from '~/components/Habit/CustomDrawer';
 
 const { Navigator } = createDrawerNavigator();
 const Drawer = withLayoutContext(Navigator);
-
-export default function DrawerLayout() {
+function DrawerLayout() {
   return (
     <Drawer drawerContent={(props) => <CustomDrawer {...props} />} screenOptions={{ headerShown: false }}>
       {/* Auto-registers screens inside (drawer) */}
     </Drawer>
   );
+  
 }
+
+export default DrawerLayout;

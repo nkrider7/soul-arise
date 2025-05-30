@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch(login({ uid: firebaseUser.uid, email: firebaseUser.email ?? '' }));
 
         console.log('User already logged in');
-        router.replace('/(tabs)');
+        router.replace('/(drawer)/(tabs)');
       } else {
         setUser(null);
 
